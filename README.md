@@ -8,11 +8,11 @@ This is a time managment website.
 4) Install dependencies
 
 # Installing Dependencies
-``` bash
+```bash
     npm install
 ```
 
 # Running Server
 ```bash
-  npm start
+    npm start
 ```
