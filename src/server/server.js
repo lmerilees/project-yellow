@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyparser = require('body-parser');
 const session = require('express-session');
@@ -27,7 +26,7 @@ app.get("/register", function(req,res){
   res.sendFile(path.resolve(__dirname, '../html',"register.html"))
 });
 
-app.post("/register-auth", function(req, res){
+app.post("/register", function(req, res){
   // console.log(req.body.username)
   bcrypt.genSalt(10,function(err, salt){
     if(err){
@@ -37,18 +36,28 @@ app.post("/register-auth", function(req, res){
         if(err){
           throw err;
         }else{
-          // Add hash to db
-          console.log(hash);
+          pool.query("SELECT username FROM users WHERE username = '" + req.body.username + "'", (err,ret) => {
+            if (err) {
+              console.log(err.stack);
+            }else{
+              if(ret.rows.length == 0){
+                pool.query("INSERT INTO users(username, password) VALUES('" + req.body.username+"'"+",'" + hash +"')");
+                res.redirect('login');
+              }else{   
+                res.send
+              }
+            }
+          });
         }
-      })
+      });
     }
   });
 });
 
 app.get("/index", function(req,res){
-  if(req.session.loggedin){
+  // if(req.session.loggedin){
     res.sendFile(path.resolve(__dirname, '../html',"index.html"))
-  }
+  // }
 });
 
 pool.connect((err, client, release) => {
