@@ -9,14 +9,27 @@ body{
   width: 100%;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows-Into-Light&display=swap');
+
 h1{
+    color: whitesmoke;
     text-align: left;
     font-size: 47px;
-    color: white;
 }
+
 h2{
   color: white;
-  text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+  font-size: 30px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding-top: 15px;
+}
+
+h3{
+    color: white;
+    font-size: 30px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    padding-top: 15px;
 }
 
 p1{
@@ -60,7 +73,11 @@ p3 {
 
 #sidebar .sidebar-header {
   text-align: center;
-  padding-top: 8px;
+  padding: 10px;
+  color: white;
+  font-family: 'Indie Flower', sans-serif;
+  font-size: 30px;
+  height: 85px;
 }
 
 
