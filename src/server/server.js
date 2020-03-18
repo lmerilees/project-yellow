@@ -11,7 +11,6 @@ const app = express();
 app.use(bodyparser.urlencoded({extended: false }))
 app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, '../public')));
-// app.use(express.static(path.join(__dirname, '../js')));
 
 app.use(session({
     secret: 'secret',
@@ -20,7 +19,7 @@ app.use(session({
 }));
 
 app.get("/", function(req,res){
-    res.sendFile(path.resolve(__dirname, '../html',"login.html"))
+    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
 });
 
 pool.connect((err, client, release) => {
