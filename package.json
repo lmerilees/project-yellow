@@ -2,7 +2,7 @@
   "name": "project-yellow",
   "version": "1.0.0",
   "description": "Time management software",
-  "main": "src/js/server.js",
+  "main": "src/server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ."
@@ -26,11 +26,6 @@
     "popper.js": "^1.16.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "babel-loader": "^8.0.6",
-    "nodemon": "^2.0.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "webpack": "^4.42.0"
+    "nodemon": "^2.0.2"
   }
 }
