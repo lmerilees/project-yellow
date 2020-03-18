@@ -8,6 +8,8 @@
     <script src="/js/libs/jquery-3.4.1.min.js"></script>
     <script src="/js/libs/popper.min.js"></script>
     <script src="/js/libs/bootstrap.min.js""></script>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
   </head>
 
   <body>
@@ -18,6 +20,11 @@
         <!-- Collapsable Sidebar -->
         <nav id="sidebar">
 
+          <!-- Sidebar header will show logo -->
+            <div class="sidebar-header">
+              <h3>Yello</h3>
+            </div>
+
             <!-- Each sidebar item can be collapsible -->
             <div id="accordion">
                 <div class="card" style="background-color: #0275d8">
@@ -26,7 +33,7 @@
                       <cen><p2>Project 1</p2></cen>
                     </a>
                   </div>
-                  <div id="collapseOne" class="collapse show" data-parent="#accordion" style="background-color: gainsboro">
+                  <div id="collapseOne" class="collapse" data-parent="#accordion" style="background-color: gainsboro">
                     <div class="card-body">
                         <button type="button"><p1>Delete Project</p1>
                         </button>
@@ -37,7 +44,7 @@
         </nav>
 
     <!-- This div will hold the rest of the page -->
-    <div id="content">
+    <div id="content" style="background-color: #0275d8">
 
         <!-- Bootstrap container to use grid system -->
         <div class="container-fluid">
@@ -48,17 +55,33 @@
             <!-- This col will be for the collapse button -->
             <div class="col-4">
               <!-- Clicking this button will collapse our sidebar -->
-              <a href="#sidebar" class="btn btn-primary" data-toggle="collapse">Collapse/Expand</a>
+              <a href="#sidebar" class="btn btn-light" data-toggle="collapse">Collapse/Expand</a>
 
             </div>
 
             <!-- This col will be for the project name -->
-            <div class="col-8">
+            <div class="col-8" style="background-color: #0275d8">
               <!-- this will need to update based on which "project" tab we are on -->
               <cen><h1>Project 1</h1></cen>
             </div>
 
           </div>
+
+          <div class="row" style="padding:10px">
+          
+            <div class="col-12" style="background-color: whitesmoke">
+            
+              <cen><h2>Tasks will go here</h2></cen>
+
+              <br>
+              <br>
+              <br>
+              <br>
+            
+            </div>
+          
+          </div>
+
 
         </div>
 
