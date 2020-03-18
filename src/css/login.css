@@ -1,0 +1,18 @@
+html, body {
+    margin:0;
+    width: 100%;
+    min-height: 100%;
+    background-color: gainsboro;
+}
+#login-d {
+    width: 300px;
+    height: 400px;
+}
+
+.vertical-center {
+    min-height: 100%; 
+    min-height: 100vh; 
+
+    display: flex;
+    align-items: center;
+}
