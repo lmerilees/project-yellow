@@ -1,8 +1,11 @@
+
 const express = require('express');
 const bodyparser = require('body-parser');
 const session = require('express-session')
 const path = require('path');
 const pool = require('./database')
+const https = require('https')
+const fs = require('fs')
 const app = express();
 
 app.use(bodyparser.urlencoded({extended: false }))
@@ -15,9 +18,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-console.log(path.join(path.join(__dirname, '../public')));
-// for local javascript files 
-// app.use('/JavaScript/register.js', express.static('./JavaScript/register.js'))
 
 app.get("/", function(req,res){
     res.sendFile(path.resolve(__dirname, '../html',"login.html"))
@@ -29,4 +29,8 @@ pool.connect((err, client, release) => {
     }
 });
 
-app.listen(8000);
+https.createServer({
+  key: fs.readFileSync( path.resolve( 'src/server/key.pem')),
+  cert: fs.readFileSync(path.resolve('src/server/cert.pem'))
+}, app)
+.listen(8000)
