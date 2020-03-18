@@ -18,8 +18,16 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.get("/", function(req,res){
-    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
+app.get("/login", function(req,res){
+    res.sendFile(path.resolve(__dirname, '../html',"login.html"))
+});
+
+app.get("/register", function(req,res){
+  res.sendFile(path.resolve(__dirname, '../html',"register.html"))
+});
+
+app.get("/index", function(req,res){
+  res.sendFile(path.resolve(__dirname, '../html',"index.html"))
 });
 
 pool.connect((err, client, release) => {
