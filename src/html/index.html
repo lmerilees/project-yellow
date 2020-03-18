@@ -29,15 +29,16 @@
 
             <!-- Each sidebar item can be collapsible -->
             <div id="accordion">
-                <div class="card">
+                <div class="card" style="background-color: #0275d8">
                   <div class="card-header">
-                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                      <p2>Project 1</p2>
+                    <a class="card-link" data-toggle="collapse" href="#collapseOne" style="background-color: gainsboro">
+                      <cen><p2>Project 1</p2></cen>
                     </a>
                   </div>
-                  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                  <div id="collapseOne" class="collapse show" data-parent="#accordion" style="background-color: gainsboro">
                     <div class="card-body">
-                        <p1>+</p1>
+                        <button type="button"><p1>Delete Project</p1>
+                        </button>
                     </div>
                   </div>
                 </div>
@@ -51,13 +52,20 @@
         <div class="container-fluid">
           
           <!-- First row will hold headers -->
-          <div class="row">
+          <div class="row" style="padding: 10px">
 
-            <!-- Clicking this button will collapse our sidebar -->
-            <a href="#sidebar" class="btn btn-primary" data-toggle="collapse">TaskyBoi</a>
+            <!-- This col will be for the collapse button -->
+            <div class="col-4">
+              <!-- Clicking this button will collapse our sidebar -->
+              <a href="#sidebar" class="btn btn-primary" data-toggle="collapse">Collapse/Expand</a>
 
-            <!-- this will need to update based on which "project" tab we are on -->
-            <div id="cen"><p1 style="text-align: center">Project 1</p1></cen>
+            </div>
+
+            <!-- This col will be for the project name -->
+            <div class="col-8">
+              <!-- this will need to update based on which "project" tab we are on -->
+              <cen><h1>Project 1</h1></cen>
+            </div>
 
           </div>
 
