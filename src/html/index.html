@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- CSS files -->
+    <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Libraries -->
+    <!--<script>window.$ = window.jQuery = require('jquery');</script> -->
+    <!-- <script>window.Bootstrap = require('bootstrap');</script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- javascript source code -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script text= "/test/javascript" src='../js/index.js'></script>
+
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta charset="UTF-8" http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+  </head>
+
+  <body>
+
+    <!-- This div will wrap the entire page contents -->
+    <div class="wrapper">
+
+        <!-- Collapsable Sidebar -->
+        <nav id="sidebar">
+
+            <!-- Each sidebar item can be collapsible -->
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                      <p2>Project 1</p2>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        <p1>+</p1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </nav>
+
+    <!-- This div will hold the rest of the page -->
+    <div id="content">
+
+        <!-- Bootstrap container to use grid system -->
+        <div class="container-fluid">
+          
+          <!-- First row will hold headers -->
+          <div class="row">
+
+            <!-- Clicking this button will collapse our sidebar -->
+            <a href="#sidebar" class="btn btn-primary" data-toggle="collapse">TaskyBoi</a>
+
+            <!-- this will need to update based on which "project" tab we are on -->
+            <div id="cen"><p1 style="text-align: center">Project 1</p1></cen>
+
+          </div>
+
+        </div>
+
+    </div>
+
+  </body>
+</html>

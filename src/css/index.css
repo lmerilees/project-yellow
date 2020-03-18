@@ -1,0 +1,100 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+  font-family:'Chelsea Market';
+  src: url(../Fonts/ChelseaMarket-Regular.ttf);
+}
+
+.wrapper{
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+h1{
+    text-align: center;
+    /** font-family: 'Chelsea Market', serif; */
+    font-size: 47px;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+h2{
+  color: white;
+  text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+}
+
+p1{
+  display: inline-flexbox;
+  color: black;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+p2 {
+  display: inline-flexbox;
+  color: white;
+  font-size: 15px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+p3 {
+  display: inline-flexbox;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+img{
+    width: 30px;
+    height: 30px;
+    vertical-align: text-bottom;
+}
+#sidebar {
+  min-width: 225px;
+  max-width: 225px;
+  min-height: 100vh;
+  background: #0275d8 ;
+  color: black;
+}
+
+#sidebar .sidebar-header {
+  text-align: center;
+  padding-top: 8px;
+  font-family: 'Chelsea Market', sans-serif;
+}
+
+
+#sidebar a {
+text-decoration: none;
+size: 70px;
+padding: 10px;
+font-size: 20px;
+color: whitesmoke;
+display: block;
+
+}
+
+#sidebar a:hover {
+color:whitesmoke;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+background-color: #0275d8;
+font-family: 'Chelsea Market', sans-serif;
+}
+
+#content{
+display: flex;
+width: 100%;
+}
+
+
+#cen{
+  display: flex;
+  justify-content: center;
+}
+
