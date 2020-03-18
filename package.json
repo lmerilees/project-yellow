@@ -2,9 +2,10 @@
   "name": "project-yellow",
   "version": "1.0.0",
   "description": "Time management software",
-  "main": "/src/js/server.js",
+  "main": "src/js/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ."
   },
   "repository": {
     "type": "git",
