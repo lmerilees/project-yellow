@@ -63,13 +63,13 @@ p3 {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-#sidebar {
+/* #sidebar {
   min-width: 200px;
   max-width: 200px;
   min-height: 100vh;
   background: #0275d8 ;
   color: black;
-}
+} */
 
 #sidebar .sidebar-header {
   text-align: center;
