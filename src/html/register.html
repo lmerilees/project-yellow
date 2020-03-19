@@ -7,18 +7,24 @@
         <link rel="stylesheet" href="../css/register.css">
         <script src="/js/libs/jquery-3.4.1.min.js"></script>
         <script src="/js/libs/popper.min.js"></script>
-        <script src="/js/libs/bootstrap.min.js""></script>
+        <script src="/js/libs/bootstrap.min.js"></script>
+        <script src="../js/register.js"></script>
     </head>
     <body>
-        <div class="container h-100 d-flex justify-content-center">
+        
+        <div class="container h-100 d-flex justify-content-center" id='reg-body'>
+            <script>$('#reg-body').hide();</script>
             <div class="vertical-center">
             <div class="shadow p-3 mb-5 bg-white rounded" id="register-d">
                 <h3 class="text-center">Project-Yellow <br> Register page</h3>
-                <form action="/register" method="POST"> 
+                <ul id="form-messages">
+                   
+                </ul>
+                <form id="reg-submit"> 
                     <div class="form-group">
                         <br>
                         <label for="username">Username</label>
-                        <input name="username" class="form-control" type="username" id="username">
+                        <input name="username" class="form-control" type="username" id="username" spellcheck="false">
                     </div>
                     <div class="form-group">
                         <br>
@@ -26,7 +32,7 @@
                         <input name="password" class="form-control" type="password" id="password">
                     </div>
                     <div class="col d-flex justify-content-center from-group" >
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="submit-button" type="button"class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
