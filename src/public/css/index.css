@@ -108,3 +108,7 @@ width: 100%;
   justify-content: center;
   text-align: center;
 }
+
+#task{
+  max-width: 200px;
+}
