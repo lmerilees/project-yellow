@@ -1,4 +1,8 @@
+
 $(document).ready(function(){
+    $('#login-body').fadeIn('slow');    
+    
+    
     $("#submit-button").on("click", function(event){
         let formData = $("#log-submit").serializeArray();
         let displError = $("#form-messages");

@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    $('#reg-body').fadeIn('slow');    
+
     $("#submit-button").on("click", function(event){
         let formData = $("#reg-submit").serializeArray();
         let displError = $("#form-messages");
