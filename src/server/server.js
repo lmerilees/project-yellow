@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
-//const pool = require('./database')
+const pool = require('./database')
 const https = require('https')
 const fs = require('fs')
 const bcrypt = require('bcryptjs');
@@ -27,7 +27,7 @@ app.get("/register", function(req,res){
 });
 
 app.post("/register", function(req, res){
-  // console.log(req.body.username)
+  // console.log(req.body)
   bcrypt.genSalt(10,function(err, salt){
     if(err){
       throw err;
@@ -42,9 +42,9 @@ app.post("/register", function(req, res){
             }else{
               if(ret.rows.length == 0){
                 pool.query("INSERT INTO users(username, password) VALUES('" + req.body.username+"'"+",'" + hash +"')");
-                res.redirect('login');
+                res.send("success");
               }else{   
-                res.send
+                res.send("Username has been taken!");
               }
             }
           });
@@ -54,19 +54,34 @@ app.post("/register", function(req, res){
   });
 });
 
-app.get("/index", function(req,res){
-  // if(req.session.loggedin){
-    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
-  // }
+app.post("/login",function(req, res){
+  pool.query("Select * from users WHERE username ='" + req.body.username+"'", function(err,result){
+    let hash = result.rows[0].password;
+    bcrypt.compare(req.body.password, hash, function(err, isMatch) {
+      if (err) {
+        throw err
+      } else if (!isMatch) {
+        console.log("Password doesn't match!")
+        res.send("Username or Password is incorrect!");
+      } else {
+        req.session.loggedin = true;
+        req.session.username = result.rows[0].username;
+        console.log("Password matches!");
+        res.redirect("index");
+      }
+    })
+  });
 });
+  
+  
 
-/**
-pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error acquiring client', err.stack)
-    }
+app.get("/index", function(req,res){
+  if(req.session.loggedin){
+    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
+  }
+  // need to get data from database and send to html js 
+  // to display on page
 });
-*/
 
 https.createServer({
   key: fs.readFileSync( path.resolve( 'src/server/key.pem')),
