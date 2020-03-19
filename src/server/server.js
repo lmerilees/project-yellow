@@ -77,7 +77,7 @@ app.post("/login",function(req, res){
 
 app.get("/index", function(req,res){
   if(req.session.loggedin){
-    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
+    res.sendFile(path.resolve(__dirname, '../html',"test.html"))
   }
   // need to get data from database and send to html js 
   // to display on page
