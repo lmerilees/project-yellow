@@ -91,3 +91,31 @@ ul ul a {
     padding-left: 30px !important;
     background: #6d7fcc;
 }
+
+#content{
+    width: 100%;
+}
+
+#steps{
+    padding: 10px;
+}
+
+#tasks{
+    padding: 10px;
+}
+
+#cen{
+    text-align: center;
+}
+
+#mymodal{
+    padding: 5px;
+}
+
+#taskmodal{
+    padding: 10px;
+}
+
+.checkbox{
+    padding: 2px;
+}
