@@ -73,14 +73,7 @@ app.post("/login",function(req, res){
   });
 
   app.get("/getuser", function(req, res){
-    pool.query("SELECT * from users", function(err, results){
-      if (err){
-        throw err
-      }
-      else{
-        res.jsonp(results)
-      }
-    })
+    res.send(req.session.username);
   })
 
   app.post("/getuser", function(req, res){

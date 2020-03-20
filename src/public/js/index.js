@@ -82,7 +82,7 @@ $(function updateUser(){
             pbodyEl.html('');
         
             //append to html element
-            pbodyEl.append('<div id="username" style="text-align: center">' + response.rows[0].username + '</div>');
+            pbodyEl.append('<div id="username" style="text-align: center">' + response + '</div>');
         },
         error: function(xhr, status, error){
             console.log(xhr);
