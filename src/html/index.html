@@ -1,126 +1,106 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Project Yellow</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/index.css">
-    <script src="/js/libs/jquery-3.4.1.min.js"></script>
-    <script src="/js/libs/popper.min.js"></script>
-    <script src="/js/libs/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
-  </head>
-
-  <body>
-
-    <!-- This div will wrap the entire page contents -->
-    <div class="wrapper">
-
-        <!-- Collapsable Sidebar -->
-        <nav id="sidebar">
-
-          <!-- Sidebar header will show logo -->
-            <div class="sidebar-header">
-              <h3>Yello</h3>
-            </div>
-
-            <!-- Each sidebar item can be collapsible -->
-            <div id="accordion">
-                <div class="card" style="background-color: #0275d8">
-                  <div class="card-header">
-                    <a class="card-link" data-toggle="collapse" href="#collapseOne" style="background-color: gainsboro">
-                      <cen><p2>Project 1</p2></cen>
-                    </a>
-                  </div>
-                  <div id="collapseOne" class="collapse" data-parent="#accordion" style="background-color: gainsboro">
-                    <div class="card-body">
-                        <button type="button"><p1>Delete Project</p1>
-                        </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </nav>
-
-    <!-- This div will hold the rest of the page -->
-    <div id="content">
-
-        <!-- Bootstrap container to use grid system -->
-        <div class="container-fluid">
-          
-          <!-- First row will hold headers -->
-          <div class="row" style="padding: 10px; background-color: #0275d8;">
-
-            <!-- This col will be for the collapse button -->
-            <div class="col-4">
-              <!-- Clicking this button will collapse our sidebar -->
-              <a href="#sidebar" class="btn btn-light" data-toggle="collapse">Collapse/Expand</a>
-
-            </div>
-
-            <!-- This col will be for the project name -->
-            <div class="col-8" style="background-color: #0275d8">
-              <!-- this will need to update based on which "project" tab we are on -->
-              <cen><h1>Project 1</h1></cen>
-            </div>
-
-          </div>
-
-          <div class="row" style="padding:10px">
-          
-            <div class="col-12" style="background-color: whitesmoke" >
-
-              <div id="tasks" style="padding-top: 10px">
-
-
-                <!-- This is a collapsible task -->
-                <button data-toggle="collapse" data-target="#task1">Task 1</button>
-                <div id="task1" class="collapse">
- 
-                  <!-- Sub-tasks will go here -->
-                  <ul class="list-group" id="task">
-                    <li class="list-group-item">First subtask</li>
-                    <li class="list-group-item">Second subtask</li>
-                    <li class="list-group-item">Third subtask</li>
-                  </ul>
-
+<html lang="en">
+    <head>
+        <title>Project Yellow</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/index.css">
+        <script src="/js/libs/jquery-3.4.1.min.js"></script>
+        <script src="/js/libs/popper.min.js"></script>
+        <script src="/js/libs/bootstrap.min.js"></script>
+        <script src="../js/index.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      </head>
+    <body>
+        
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div class ="sidebar-header">
+                    <h3>Project Yellow</h3>
                 </div>
 
+                <ul class="list-unstyled components">
+                        <pbody> <!-- Username will append here --> </pbody>
+                    <li class="active">
+                        <!-- This needs to be appended -->
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Project Name</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">Select</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                        <!-- To here -->
+                        <li>
+                            <a href="#">
+                                <i class="material-icons d-flex justify-content-center">
+                                    add5
+                                </i>
+                            </a>
+                        </li>
+                    
+                    </li>
+                </ul>
+            </nav>
 
-
-                <!-- This is a collapsible task -->
-                <button data-toggle="collapse" data-target="#task2">Task 2</button>
-                <div id="task2" class="collapse">
- 
-                  <!-- Sub-tasks will go here -->
-                  <ul class="list-group" id="task">
-                    <li class="list-group-item">First subtask</li>
-                    <li class="list-group-item">Second subtask</li>
-                    <li class="list-group-item">Third subtask</li>
-                  </ul>
-
-                </div>
-
-
-
-
-              </div>
-
-              <br>
-              <br>
-              <br>
-              <br>
-           
             
+            <!-- Page Content -->
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #7386D5">
+
+                    <div class="container-fluid" style="background-color: #7386D5">
+
+                        <!-- First row will hold headers -->
+                    <div class="row" style="width: 100%">
+
+                        <!-- This col will be for the collapse button -->
+                        <div class="col-4" >
+                            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                                <i class="fas fa-align-left"></i>
+                                <span>SB</span>
+                            </button>
+                        </div>
+
+                        <!-- This col will be for the project name -->
+                        <div class="col-8">
+                            <!-- this will need to update based on which "project" tab we are on -->
+                            <div id="title" style="text-align: left"><h1>Project 1</h1></cen>
+                        </div>
+
+                    </div>
+
+                </nav>
+                    
+                <div class="container-fluid" style="background-color: whitesmoke">
+
+                    <div class="row">
+
+                        <div class="col-12" >
+    
+                            
+                            <div id="steps">
+
+                                <!-- Trigger the modal with a button -->
+                                <button type="button" class="btn btn-info btn-md" id="newStep">New Step</button>
+                                <br>
+                                <br>
+
+                                <!-- Tasks will populate here -->
+                                    
+                            </div>
+
+                        </div>
+
+                    </div> 
+
+                </div>      
+
             </div>
-          
-          </div>
-
-
         </div>
-
-    </div>
-
-  </body>
+    </body>
 </html>

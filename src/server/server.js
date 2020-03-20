@@ -71,13 +71,37 @@ app.post("/login",function(req, res){
       }
     })
   });
+
+  app.get("/getuser", function(req, res){
+    pool.query("SELECT * from users", function(err, results){
+      if (err){
+        throw err
+      }
+      else{
+        res.jsonp(results)
+      }
+    })
+  })
+
+  app.post("/getuser", function(req, res){
+    pool.query("SELECT * from users", function(err, results){
+      if (err){
+        throw err
+      }
+      else{
+        res.jsonp(results)
+      }
+    })
+  })
+
+
 });
   
   
 
 app.get("/index", function(req,res){
   if(req.session.loggedin){
-    res.sendFile(path.resolve(__dirname, '../html',"test.html"))
+    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
   }
   // need to get data from database and send to html js 
   // to display on page
