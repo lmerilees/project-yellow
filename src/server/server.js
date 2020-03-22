@@ -73,6 +73,7 @@ app.post("/login",function(req, res){
     })
   });
 
+  // get userID of current user
   app.get("/getUserID", function(req, res){
     let sql = "SELECT user_id FROM users WHERE username = '" + req.session.username + "'";
     pool.query(sql, function(err, result){
@@ -84,16 +85,16 @@ app.post("/login",function(req, res){
     });
   })
 
+  // get current session username
   app.get("/getuser", function(req, res){
     res.send(req.session.username);
   })
 
-  app.post("/addStep", function(req, res){
-    
-    const stepName = req.body.stepName;
-    const userID = req.body.userID;
 
-    let sql = "INSERT INTO steps (step_id, stepname, user_id) VALUES(DEFAULT, " + "'" + stepName + "'" + ", " + userID + ")";
+  // insert new step into database
+  app.post("/addStep", function(req, res){
+  
+    let sql = "INSERT INTO steps (step_id, stepname, user_id) VALUES(DEFAULT, " + "'" + req.body.stepName + "'" + ", " + req.body.userID + ")";
 
     pool.query(sql, (err, results) => {
       console.log(sql);
@@ -106,6 +107,7 @@ app.post("/login",function(req, res){
     })
   })
 
+  // select all steps with current userid (/project id?)
   app.post('/populateSteps', function(req, res){
     const userID = req.body.userID;
     let sql = "SELECT * FROM steps where user_ID = " + "'" + userID + "'";

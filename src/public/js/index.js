@@ -72,7 +72,6 @@ $(document).ready(function () {
 
 // update username on page load
 $(function updateUser(){
-
     $.ajax({
         method: "GET",
         url: "/getuser",
@@ -88,7 +87,7 @@ $(function updateUser(){
 })
 
 
-// non-pageload function
+// get userid of current user
 function getUserID(){
     $.ajax({
         method: "GET",
@@ -126,24 +125,18 @@ function countRows(){
 
 
 function callbackCountRows(data){
-    let countrows1 = data;
-    callbackCountRows2(countrows1);
+    let countrows = data;
+    callbackCountRows2(countrows);
     console.log(countrows);
     return countrows;
 }
 
-function callbackCountRows2(data){
-    countrows = data;
-    return countrows;
-}
 
-
-// populate steps page load
+// populate users steps on page load
 $(function populateSteps(){
 
+    // this shouldn't be hardcoded if we have more than 1 user on same machine
     let userID = 1;
-
-    console.log("POPULATEEEEEEEEEEEEEE        " + userID);
 
     $.ajax({
         method: "POST",
@@ -188,9 +181,6 @@ $(function populateSteps(){
 
 // append new step to the page
 function addStep(){
-
-    console.log(rowcount);
-
     $('#steps').append($(
         '<button type="button" class="btn btn-info btn-lg" style="padding: 5px" data-toggle="modal" data-target="#myModal'+ rowcount + '">Step ' + rowcount + '</button>' +  
         '<div class="modal fade" id="myModal'+ rowcount + '" role="dialog" style="padding: 2px">' + 
@@ -217,4 +207,5 @@ function addStep(){
         '</div>' +
     '</div>'))
     $('#steps').append(' ');
+    rowcount++
 }
