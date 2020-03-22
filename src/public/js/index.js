@@ -1,7 +1,6 @@
 // global variables
 var userID;
 var rowcount = 0;
-var countrows = null;
 
 
 $(document).ready(function () {
@@ -125,10 +124,9 @@ function countRows(){
 
 
 function callbackCountRows(data){
-    let countrows = data;
-    callbackCountRows2(countrows);
-    console.log(countrows);
-    return countrows;
+    rowcount = data;
+    console.log(rowcount);
+    return rowcount;
 }
 
 
