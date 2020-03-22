@@ -1,7 +1,10 @@
-$(document).ready(function () {
+// global variables
+var userID;
+var rowcount = 0;
+var countrows = null;
 
-    // increment for adding unique modals
-    var steps = 1;
+
+$(document).ready(function () {
 
     // this function handles the sidebar collapse
     $('#sidebarCollapse').on('click', function () {
@@ -9,35 +12,33 @@ $(document).ready(function () {
     });
 
     // this function will create append a new modal task button to the page when New Step is clicked
-    $('#newStep').on('click', function () {
+    $('#newStep').on('click', function(event) {
+        event.preventDefault();
 
-        $('#steps').append($(
-            '<button type="button" class="btn btn-info btn-lg" style="padding: 5px" data-toggle="modal" data-target="#myModal'+ steps + '">Step ' + steps + '</button>' +  
-            '<div class="modal fade" id="myModal'+ steps + '" role="dialog" style="padding: 2px">' + 
-                '<div class="modal-dialog modal-sm">' + 
-                    '<div class="modal-content">' + 
-                        '<div class="modal-header">' + 
-                            '<h4 class="modal-title">Step ' + steps + '</h4>' + 
-                            '<button type="button" class="close" data-dismiss="modal">&times;</button>' + 
-                        '</div>' + 
-                        '<div class="modal-body">' +
-                            '<div class="subtasks">' + 
-                                '<div class="form-group">' +
-                                    '<label class="checkbox-inline"><input type="checkbox" value=""></label>' + 
-                                    '<input type="input" class="form-control-inline" id="task' + steps + '" placeholder="Enter Task Name">' +
-                                '</div>' + 
-                            '</div>' +
-                        '</div>' + 
-                        '<div class="modal-footer">' + 
-                            '<button type="button" class="btn btn-info btn-md" id="newTask">New Task</button>' +
-                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-                        '</div>' + 
-                    '</div>' + 
-                '</div>' + 
-            '</div>' +
-        '</div>'))
-        $('#steps').append(' ');
-        steps++;
+        rowcount = countRows();
+        console.log(rowcount);
+
+        var stepName = 'Step' + rowcount;
+        var userID = 1;
+        
+        $.ajax({
+            url: '/addStep',
+            method: 'POST',
+            async: true,
+            data: {stepName: stepName, userID: userID},
+            success: function(response){
+                // add new step to the page
+                addStep();
+                // keep row count up to date
+                countRows();
+            
+            },
+            error: function(response, status, err){
+                console.log(response);
+                console.log(status);
+                throw err
+            }
+        });
     });
 
     // add new subtask to modal-body when new task button is clicked
@@ -71,18 +72,13 @@ $(document).ready(function () {
 
 // update username on page load
 $(function updateUser(){
-    var pbodyEl = $('pbody');
 
     $.ajax({
         method: "GET",
         url: "/getuser",
         async: true,
         success: function(response){
-            // clear element each time
-            pbodyEl.html('');
-        
-            //append to html element
-            pbodyEl.append('<div id="username" style="text-align: center">' + response + '</div>');
+            $('pbody').append('<div id="username" style="text-align: center">' + response + '</div>');
         },
         error: function(xhr, status, error){
             console.log(xhr);
@@ -90,3 +86,135 @@ $(function updateUser(){
         }
     })
 })
+
+
+// non-pageload function
+function getUserID(){
+    $.ajax({
+        method: "GET",
+        url: "/getUserId",
+        async: true,
+        success: function(response){
+            var userID = response.rows[0].user_id;
+            console.log(userID);
+            return userID;
+        }
+    })
+    return userID;
+}
+
+
+// we need to keep count of the number of rows in our step table so we can create unique modals
+function countRows(){
+
+    // change this if we can figure out how to get userid
+    let userID = 1;
+    
+    $.ajax({
+        method: "POST",
+        url: "/getRowCount",
+        async: true,
+        dataType: "json",
+        data: {userID: userID},
+        success: callbackCountRows,
+        error: function(xhr, status, error){
+            //console.log(xhr);
+            console.log(status + " in getRowCount");
+        }
+    })
+}
+
+
+function callbackCountRows(data){
+    let countrows1 = data;
+    callbackCountRows2(countrows1);
+    console.log(countrows);
+    return countrows;
+}
+
+function callbackCountRows2(data){
+    countrows = data;
+    return countrows;
+}
+
+
+// populate steps page load
+$(function populateSteps(){
+
+    let userID = 1;
+
+    console.log("POPULATEEEEEEEEEEEEEE        " + userID);
+
+    $.ajax({
+        method: "POST",
+        url: '/populateSteps',
+        data: {userID: userID},
+        async: true,
+        success: function(results){
+
+            // iterate over steps stored in database and append to page
+            Object.keys(results).forEach(function(result){
+  
+                $('#steps').append($(
+                '<button type="button" class="btn btn-info btn-lg" style="padding: 5px" data-toggle="modal" data-target="#myModal'+ result.stepName + '">' + result.stepName + '</button>' +  
+                    '<div class="modal fade" id="myModal'+ result.stepName + '" role="dialog" style="padding: 2px">' + 
+                        '<div class="modal-dialog modal-sm">' + 
+                            '<div class="modal-content">' + 
+                                '<div class="modal-header">' + 
+                                    '<h4 class="modal-title">' + result.stepName + '</h4>' + 
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>' + 
+                                '</div>' + 
+                                '<div class="modal-body">' +
+                                    '<div class="subtasks">' + 
+                                        '<div class="form-group">' +
+                                            '<label class="checkbox-inline"><input type="checkbox" value=""></label>' + 
+                                            '<input type="input" class="form-control-inline" id="task' + result.stepName + '" placeholder="Enter Task Name">' +
+                                        '</div>' + 
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="modal-footer">' + 
+                                    '<button type="button" class="btn btn-info btn-md" id="newTask">New Task</button>' +
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                                '</div>' + 
+                            '</div>' + 
+                        '</div>' + 
+                    '</div>' +
+                '</div>'))
+                $('#steps').append(' ');
+            })
+        }
+    })
+})
+
+// append new step to the page
+function addStep(){
+
+    console.log(rowcount);
+
+    $('#steps').append($(
+        '<button type="button" class="btn btn-info btn-lg" style="padding: 5px" data-toggle="modal" data-target="#myModal'+ rowcount + '">Step ' + rowcount + '</button>' +  
+        '<div class="modal fade" id="myModal'+ rowcount + '" role="dialog" style="padding: 2px">' + 
+            '<div class="modal-dialog modal-sm">' + 
+                '<div class="modal-content">' + 
+                    '<div class="modal-header">' + 
+                        '<h4 class="modal-title">Step ' + rowcount + '</h4>' + 
+                        '<button type="button" class="close" data-dismiss="modal">&times;</button>' + 
+                    '</div>' + 
+                    '<div class="modal-body">' +
+                        '<div class="subtasks">' + 
+                            '<div class="form-group">' +
+                                '<label class="checkbox-inline"><input type="checkbox" value=""></label>' + 
+                                '<input type="input" class="form-control-inline" id="task' + rowcount + '" placeholder="Enter Task Name">' +
+                            '</div>' + 
+                        '</div>' +
+                    '</div>' + 
+                    '<div class="modal-footer">' + 
+                        '<button type="button" class="btn btn-info btn-md" id="newTask">New Task</button>' +
+                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                    '</div>' + 
+                '</div>' + 
+            '</div>' + 
+        '</div>' +
+    '</div>'))
+    $('#steps').append(' ');
+}

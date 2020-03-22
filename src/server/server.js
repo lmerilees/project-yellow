@@ -66,18 +66,37 @@ app.post("/login",function(req, res){
       } else {
         req.session.loggedin = true;
         req.session.username = result.rows[0].username;
+        req.session.user_id = result.rows[0].id;
         console.log("Password matches!");
         res.redirect("index");
       }
     })
   });
 
+  app.get("/getUserID", function(req, res){
+    let sql = "SELECT user_id FROM users WHERE username = '" + req.session.username + "'";
+    pool.query(sql, function(err, result){
+      if (err){
+        throw err;
+      }else{
+        res.jsonp(result)
+      }
+    });
+  })
+
   app.get("/getuser", function(req, res){
     res.send(req.session.username);
   })
 
-  app.post("/getuser", function(req, res){
-    pool.query("SELECT * from users", function(err, results){
+  app.post("/addStep", function(req, res){
+    
+    const stepName = req.body.stepName;
+    const userID = req.body.userID;
+
+    let sql = "INSERT INTO steps (step_id, stepname, user_id) VALUES(DEFAULT, " + "'" + stepName + "'" + ", " + userID + ")";
+
+    pool.query(sql, (err, results) => {
+      console.log(sql);
       if (err){
         throw err
       }
@@ -87,17 +106,44 @@ app.post("/login",function(req, res){
     })
   })
 
-
-});
+  app.post('/populateSteps', function(req, res){
+    const userID = req.body.userID;
+    let sql = "SELECT * FROM steps where user_ID = " + "'" + userID + "'";
+    pool.query(sql, (err, results) => {
+      console.log(sql);
+      if (err){
+        throw err
+      }
+      else{
+        res.jsonp(results.rows)
+      }
+    })
+  })
   
+  // count rows in current step table
+  app.post('/getRowCount', function(req, res){
+    let userID = req.body.userID;
+    let sql = "SELECT COUNT(*) AS rowcount FROM steps WHERE user_ID = " + "'" + userID + "'";
+    console.log(sql);
+    pool.query(sql, (err, results) => {
+      if (err){
+        throw err
+      }
+      else{
+        res.jsonp(results.rows[0].rowcount)
+      }
+    })
+  })
   
 
-app.get("/index", function(req,res){
-  if(req.session.loggedin){
-    res.sendFile(path.resolve(__dirname, '../html',"index.html"))
-  }
-  // need to get data from database and send to html js 
-  // to display on page
+  app.get("/index", function(req,res){
+    if(req.session.loggedin){
+      res.sendFile(path.resolve(__dirname, '../html',"index.html"))
+    }
+    // need to get data from database and send to html js 
+    // to display on page
+  });
+
 });
 
 https.createServer({
