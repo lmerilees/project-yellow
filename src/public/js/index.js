@@ -41,13 +41,14 @@ $(document).ready(function () {
         project_name = projectName;
         $.post("project-add", {proj_name:projectName, user_id:User_Id}, function(data){
             if(data == "added"){
-                        // add select to html
-                $('#append-project').append('<a href="#'+ projectName.split(' ').join('_')+'" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'+ projectName +'</a>')
-                .append('<ul class="collapse list-unstyled" id="'+projectName.split(' ').join('_')+'"></ul>');
-                $('#append-project').children().last().append('<li></li>');
-                $('#append-project').children().last().children().last().append('<a href="#" onclick="selectProj(this);" id="'+projectName+'" >Select</a>');
-                $('#append-project').children().last().append('<li></li>');
-                $('#append-project').children().last().children().last().append('<a href="#" onclick="deleteProj(this);" id="'+projectName+'">Delete</a>');
+                // add select to html
+                $('#append-project').append("<li id="+projectName+"></li>")
+                $('#append-project').children().last().append('<a href="#t'+ projectName.split(' ').join('_')+'" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'+ projectName +'</a>')
+                .append('<ul class="collapse list-unstyled" id="t'+projectName.split(' ').join('_')+'"></ul>');
+                $('#append-project').children().last().children().last().append('<li></li>');
+                $('#append-project').children().last().children().last().children().last().append('<a href="#" onclick="selectProj(this);" id="'+projectName+'" >Select</a>');
+                $('#append-project').children().last().children().last().append('<li></li>');
+                $('#append-project').children().last().children().last().children().last().append('<a href="#" onclick="deleteProj(this);" id="'+projectName+'">Delete</a>');
 
                 // hide modal
                 $("#myModal").modal('hide');
@@ -71,16 +72,17 @@ $(document).ready(function () {
 
     function allProjects(UserID){
         $.post("allProjects", {userID:UserID}, function(data){
+            console.log(data.rows)
             for(let i in data.rows){
                 let projectName = data.rows[i].project_name;
 
-                $('#append-project').append("<li id=side-"+projectName+"></li>")
-                $('#append-project').children().last().append('<a href="#'+ projectName.split(' ').join('_')+'" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'+ projectName +'</a>')
-                .append('<ul class="collapse list-unstyled" id="'+projectName.split(' ').join('_')+'"></ul>');
+                $('#append-project').append("<li id="+projectName+"></li>")
+                $('#append-project').children().last().append('<a href="#t'+ projectName.split(' ').join('_')+'" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'+ projectName +'</a>')
+                .append('<ul class="collapse list-unstyled" id="t'+projectName.split(' ').join('_')+'"></ul>');
                 $('#append-project').children().last().children().last().append('<li></li>');
-                $('#append-project').children().last().children().last().children().last().append('<a href="#" onclick="selectProj(this);" id="'+projectName+'" >Select</a>');
+                $('#append-project').children().last().children().last().children().last().append('<a href="#" id="'+projectName+'" onclick="selectProj(this);">Select</a>');
                 $('#append-project').children().last().children().last().append('<li></li>');
-                $('#append-project').children().last().children().last().children().last().append('<a href="#" onclick="deleteProj(this);" id="'+projectName+'">Delete</a>');
+                $('#append-project').children().last().children().last().children().last().append('<a href="#" id="'+projectName+'" onclick="deleteProj(this);">Delete</a>');
             }
         });
     }
@@ -103,10 +105,11 @@ function selectProj(project){
 
 
 function deleteProj(project){
+    console.log(project)
     $.post("deleteProject",{projectName:project.id},function(data){
         // insert data to body
         if(data == "deleted"){
-            $("#side-"+project.id).remove()
+            $("#"+project.id).remove()
         }
         console.log(data);
     });

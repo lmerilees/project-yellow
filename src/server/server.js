@@ -34,7 +34,6 @@ app.post("/login",function(req, res){
       } else {
         req.session.loggedin = true;
         req.session.username = result.rows[0].username;
-        req.session.user_id = result.rows[0].id;
         console.log("Password matches!");
         res.redirect("index");
       }
@@ -44,7 +43,7 @@ app.post("/login",function(req, res){
 
 
   // get current session username
-app.get("/getUser", function(req, res){
+app.post("/getUser", function(req, res){
   res.send(req.session.username);
 });
 
@@ -93,8 +92,6 @@ app.post("/register", function(req, res){
 
 // CREATE TABLE projects(user_id int not null, project_id serial primary key not null, project_name VARCHAR(50) not null unique );
 app.post("/project-add", function(req,res){
-  console.log(req.body.proj_name)
-  console.log(req.body.user_id)
   let sql = "INSERT INTO projects(user_id, project_name) VALUES ('"+req.body.user_id+"', '"+req.body.proj_name+"')"
   pool.query(sql,function(err,result){
     if(err){
@@ -129,14 +126,13 @@ app.post("/getStepsData", function(req,res){
 app.post("/deleteProject", function(req,res){
   let sql = "SELECT project_id FROM projects WHERE project_name = '" + req.body.projectName + "'"
   pool.query(sql, function(err,result){
-    console.log(result.rows[0].project_id);
     if(err){
       res.send("err in project name");
     }else{
       sql = "DELETE FROM steps where project_id = " + result.rows[0].project_id
       pool.query(sql, function(err){
         if(err){
-          console.log("test");
+          // console.log("test");
           res.send("deleted");
           pool.query("DELETE FROM projects where project_id = " + result.rows[0].project_id,function(err){
             if(err){
@@ -157,6 +153,7 @@ app.post("/deleteProject", function(req,res){
 });
 
 app.post("/allProjects", function(req,res){
+  console.log(req.body.userID)
   pool.query("SELECT * FROM projects WHERE user_id ='" + req.body.userID +"'", function(err, result){
     if(err){
       res.send("err");
