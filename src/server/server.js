@@ -41,7 +41,6 @@ app.post("/login",function(req, res){
   });
 
 
-
   // get current session username
 app.post("/getUser", function(req, res){
   res.send(req.session.username);
@@ -116,6 +115,7 @@ app.post("/getUserID", function(req, res){
   });
 });
 
+// for populating the page
 app.post("/getProjectData", function(req,res){
 
 });
@@ -162,51 +162,13 @@ app.post("/allProjects", function(req,res){
     }
   });
 });
-  // // insert new step into database
-  // app.post("/addStep", function(req, res){
-  
-  //   let sql = "INSERT INTO steps (step_id, stepname, user_id) VALUES(DEFAULT, " + "'" + req.body.stepName + "'" + ", " + req.body.userID + ")";
 
-  //   pool.query(sql, (err, results) => {
-  //     console.log(sql);
-  //     if (err){
-  //       throw err
-  //     }
-  //     else{
-  //       res.jsonp(results)
-  //     }
-  //   })
-  // })
-
-  // // select all steps with current userid (/project id?)
-  // app.post('/populateSteps', function(req, res){
-  //   const userID = req.body.userID;
-  //   let sql = "SELECT * FROM steps where user_ID = " + "'" + userID + "'";
-  //   pool.query(sql, (err, results) => {
-  //     console.log(sql);
-  //     if (err){
-  //       throw err
-  //     }
-  //     else{
-  //       res.jsonp(results.rows)
-  //     }
-  //   })
-  // })
-  
-  // // count rows in current step table
-  // app.post('/getRowCount', function(req, res){
-  //   let userID = req.body.userID;
-  //   let sql = "SELECT COUNT(*) AS rowcount FROM steps WHERE user_ID = " + "'" + userID + "'";
-  //   console.log(sql);
-  //   pool.query(sql, (err, results) => {
-  //     if (err){
-  //       throw err
-  //     }
-  //     else{
-  //       res.jsonp(results.rows[0].rowcount)
-  //     }
-  //   })
-  // })
+// TODO
+// ADD card data to database
+// delete card from database
+// Insert task data to cards table
+// remove task data from cards table
+// modify task data
   
 
 https.createServer({
