@@ -88,27 +88,24 @@ function selectProj(project){
     // server get data from projectid and User_id
     $.post("getProjectData", {projectName:projectName}, function(data){
         // this is where we populate the page with steps
-        $("#title").append(project_name);
+        $("#title1").html(project.id);
 
     });
     $.post("getStepsData",function(data){
         // insert data to body
         
     });
-    console.log(project.id);
 }
 
 
 
 
 function deleteProj(project){
-    console.log(project)
     $.post("deleteProject",{projectName:project.id},function(data){
         // insert data to body
         if(data == "deleted"){
             $("#"+project.id.split(' ').join('_')).remove()
         }
-        console.log(data);
     });
 }
 
@@ -131,10 +128,10 @@ function deleteProj(project){
 function stepSave(){
     let cardName = $("#append-body #project-input").val().trim();
     let cardInfo = $("#append-body").children().last().val();
-    let projectName = $("title").val();
+    let projectName = $("#title1").text();
 
-    $.post("project-add", {cardName, cardInfo, projectName}, function(data){
-
+    $.post("step-add", {cardName, cardInfo, projectName}, function(data){
+        console.log("test");
         $("#card-input").prepend('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
         $("#"+cardName.split(' ').join('_')).css("margin", '10px');
         $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>')

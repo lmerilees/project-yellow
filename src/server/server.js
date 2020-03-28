@@ -190,7 +190,7 @@ app.post("/allProjects", function(req,res){
 
 // ADD card data to database
   app.post("/step-add", function(req, res){
-    let sql = "INSERT INTO steps (step_id, stepname, stepinfo, projectname) VALUES(DEFAULT, " + "'" + req.body.cardName + "'" + ", " + "'" + req.body.cardInfo + "'" + ", " + req.body.projectName + ")";
+    let sql = "INSERT INTO steps (step_id, stepname, stepinfo, project_name) VALUES(DEFAULT, " + "'" + req.body.cardName + "'" + ", " + "'" + req.body.cardInfo + "'" + ", " + "'" + req.body.projectName + "'" + ")";
     pool.query(sql, (err, results) => {
       console.log(sql);
       if (err){
