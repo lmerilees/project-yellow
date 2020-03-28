@@ -115,14 +115,33 @@ app.post("/getUserID", function(req, res){
   });
 });
 
-// for populating the page
+// get project ID of current project
+
+// populate steps for current project
 app.post("/getProjectData", function(req,res){
-
+  pool.query("SELECT * FROM steps WHERE projectname ='" + req.body.projectName +"'", function(err, result){
+    if(err){
+      res.send("err");
+    }else{
+      res.send(result);
+    }
+  });
 });
+
+
+// populate tasks for current step
 app.post("/getStepsData", function(req,res){
-
+  pool.query("SELECT * FROM tasks WHERE stepname ='" + req.body.stepName +"'", function(err, result){
+    if(err){
+      res.send("err");
+    }else{
+      res.send(result);
+    }
+  });
 });
 
+
+// delete project
 app.post("/deleteProject", function(req,res){
   let sql = "SELECT project_id FROM projects WHERE project_name = '" + req.body.projectName + "'"
   pool.query(sql, function(err,result){
@@ -152,6 +171,7 @@ app.post("/deleteProject", function(req,res){
   });
 });
 
+// list all projects
 app.post("/allProjects", function(req,res){
   console.log(req.body.userID)
   pool.query("SELECT * FROM projects WHERE user_id ='" + req.body.userID +"'", function(err, result){
@@ -163,12 +183,79 @@ app.post("/allProjects", function(req,res){
   });
 });
 
-// TODO
+
 // ADD card data to database
+  app.post("/step-add", function(req, res){
+    let sql = "INSERT INTO steps (step_id, stepname, stepinfo, projectname) VALUES(DEFAULT, " + "'" + req.body.cardName + "'" + ", " + "'" + req.body.cardInfo + "'" + ", " + req.body.projectName + ")";
+    pool.query(sql, (err, results) => {
+      console.log(sql);
+      if (err){
+        throw err
+      }
+      else{
+        res.send("Step added!")
+      }
+    })
+  })
+
+  
 // delete card from database
+app.post("/step-delete", function(req, res){
+  let sql = "DELETE FROM steps WHERE stepname = '" + req.body.stepName + "'"
+  pool.query(sql, (err, results) => {
+    console.log(sql);
+    if (err){
+      throw err
+    }
+    else{
+      res.send("true")
+    }
+  })
+})
+
+
 // Insert task data to cards table
-// remove task data from cards table
+app.post("/task-add", function(req, res){
+  let sql = "INSERT INTO tasks (task_id, taskname, stepname) VALUES(DEFAULT, " + "'" + req.body.taskName + "'" + ", " + "'" + req.body.stepName + "'" + ')';
+  pool.query(sql, (err, results) => {
+    console.log(sql);
+    if (err){
+      throw err
+    }
+    else{
+      res.send("Task added!")
+    }
+  })
+})
+
+//remove task data from cards table
+app.post("/task-delete", function(req, res){
+  let sql = "DELETE FROM steps WHERE taskname = '" + req.body.taskName + "'"
+  pool.query(sql, (err, results) => {
+    console.log(sql);
+    if (err){
+      throw err
+    }
+    else{
+      res.send("true")
+    }
+  })
+})
+
+
+
 // modify task data
+app.post("/task-modify", function(req, res){
+ let sql = "ALTER FROM steps WHERE taskname = ' " + req.body.taskName + "'"
+ pool.query(sql, (err, results) => {
+   if (err){
+     throw err
+    }
+   else{
+      res.send("true")
+    }
+  })  
+})
   
 
 https.createServer({
