@@ -24,20 +24,24 @@ app.get("/login", function(req,res){
 
 app.post("/login",function(req, res){
   pool.query("Select * from users WHERE username ='" + req.body.username+"'", function(err,result){
-    let hash = result.rows[0].password;
-    bcrypt.compare(req.body.password, hash, function(err, isMatch) {
-      if (err) {
-        throw err
-      } else if (!isMatch) {
-        console.log("Password doesn't match!")
-        res.send("Username or Password is incorrect!");
-      } else {
-        req.session.loggedin = true;
-        req.session.username = result.rows[0].username;
-        console.log("Password matches!");
-        res.redirect("index");
-      }
-    })
+    if(result.rows.length !=0){
+      let hash = result.rows[0].password;
+      bcrypt.compare(req.body.password, hash, function(err, isMatch) {
+        if (err) {
+          throw err
+        } else if (!isMatch) {
+          console.log("Password doesn't match!")
+          res.send("Username or Password is incorrect!");
+        } else {
+          req.session.loggedin = true;
+          req.session.username = result.rows[0].username;
+          console.log("Password matches!");
+          res.redirect("index");
+        } 
+      });
+    } else{
+      res.send("Username or Password is incorrect!");
+    }
   });
 
 
