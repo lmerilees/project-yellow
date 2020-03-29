@@ -81,6 +81,7 @@ function saveProject(){
     //TODO
     // Load project - show cards
 function selectProj(project){
+    $("#title").empty();
     //let projectName = $("#append-body #project-input").val().trim()
     let projectName = "Project Name";
     project_name = projectName;
