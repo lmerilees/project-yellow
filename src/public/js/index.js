@@ -99,7 +99,7 @@ function selectProj(project){
             $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
             $("#card-input").children().last().append('<div class="card-body"></div>');
             $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
-            $("#card-input").children().last().children().last().append('<a href="#" onclick="taskDelete(this)" class="card-link">Delete Card</a>');
+            $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
         }
     });
 }

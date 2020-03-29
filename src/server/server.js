@@ -195,7 +195,7 @@ app.post("/step-delete", function(req, res){
   pool.query(sql, (err, results) => {
     console.log(sql);
     if (err){
-      throw err
+      res.send(err)
     }
     else{
       res.send("true")
