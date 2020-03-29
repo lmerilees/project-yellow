@@ -131,20 +131,32 @@ function stepSave(){
     let projectName = $("#title1").text();
 
     $.post("step-add", {cardName, cardInfo, projectName}, function(data){
-        console.log("test");
         $("#card-input").prepend('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
         $("#"+cardName.split(' ').join('_')).css("margin", '10px');
         $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>')
-        $("#"+cardName.split(' ').join('_')).children().last().append('<h5 class="card-title">'+cardName+'</h5>')
-        .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>');
+        $("#"+cardName.split(' ').join('_')).children().last().append('<h5 class="card-title">'+cardName +'</h5>' + " ")
+        .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>' + " ");
         // put checkbox here
         $("#"+cardName.split(' ').join('_')).append('<ul id="chk_'+cardName.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
         $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>');
         $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
-        $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="taskDelete(this)" class="card-link">Delete Card</a>');
+        $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
 
         $("#myModal").modal('hide');
     });
+}
+
+function stepDelete(step){
+    let stepName = $(step).parent().parent().text().split(" ")[1];    
+    let deleteThis = $(step).parent().parent();
+
+    console.log(stepName);
+
+    $.post("step-delete", {stepName}, function(data){
+        if(data=="true"){
+            deleteThis.remove()
+        }
+    })
 }
 
 function newTask(curItem){
@@ -166,8 +178,8 @@ function taskSave(curItem){
     
         $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
         .append('<input class="form-check-input" type="checkbox" value="" id="t_'+taskid[0] +'"> ')
-        .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>');
-
+        .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>')
+        .append('<button type="button" class="btn btn-primary" onclick="taskDelete(this);" id="card-save">Task Complete</button>');
         $("#myModal").modal('hide');
 
     });
@@ -176,9 +188,14 @@ function taskSave(curItem){
 function taskDelete(curItem){
     let deleteThis = $(curItem).parent().parent();
     let taskName = $(curItem).parent().prev().prev().children().first().text()
-    $.post("task-delete", {taskName}, function(data){
-        if(data=="true"){
-            deleteThis.remove()
+    $.ajax({
+        url: "task-delete",
+        type: 'DELETE',
+        data: taskName, 
+        success: function(data){
+            if(data=="true"){
+                deleteThis.remove()
+            }
         }
     })
 }
