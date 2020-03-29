@@ -182,7 +182,8 @@ app.post("/allProjects", function(req,res){
         res.send(err)
       }
       else{
-        res.send("Step added!")
+
+        res.send(results)
       }
     })
   })
