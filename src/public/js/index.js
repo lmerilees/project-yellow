@@ -108,7 +108,9 @@ function selectProj(project){
 
 
 function deleteProj(project){
-    
+    if(project.id == $("#title1").text()){
+        $("#title1").empty();
+    }
     $.post("deleteProject",{projectName:project.id},function(data){
         // insert data to body
         if(data == "deleted"){
