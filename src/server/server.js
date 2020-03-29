@@ -123,7 +123,7 @@ app.post("/getUserID", function(req, res){
 
 // populate steps for current project
 app.post("/getProjectData", function(req,res){
-  pool.query("SELECT * FROM steps WHERE projectname ='" + req.body.projectName +"'", function(err, result){
+  pool.query("SELECT * FROM steps WHERE project_name ='" + req.body.projectName +"'", function(err, result){
     if(err){
       res.send("err");
     }else{
@@ -192,9 +192,9 @@ app.post("/allProjects", function(req,res){
   app.post("/step-add", function(req, res){
     let sql = "INSERT INTO steps (step_id, stepname, stepinfo, project_name) VALUES(DEFAULT, " + "'" + req.body.cardName + "'" + ", " + "'" + req.body.cardInfo + "'" + ", " + "'" + req.body.projectName + "'" + ")";
     pool.query(sql, (err, results) => {
-      console.log(sql);
+      // console.log(sql);
       if (err){
-        throw err
+        res.send(err)
       }
       else{
         res.send("Step added!")
