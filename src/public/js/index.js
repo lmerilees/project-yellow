@@ -82,19 +82,12 @@ function saveProject(){
     // Load project - show cards
 function selectProj(project){
     $("#title").empty();
-    //let projectName = $("#append-body #project-input").val().trim()
-    let projectName = "Project Name";
-    project_name = projectName;
 
     // server get data from projectid and User_id
-    $.post("getProjectData", {projectName:projectName}, function(data){
+    $.post("getProjectData", {projectName:project.id}, function(data){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
-
-    });
-    $.post("getStepsData",function(data){
-        // insert data to body
-        
+        console.log(data)
     });
 }
 
@@ -132,19 +125,21 @@ function stepSave(){
     let projectName = $("#title1").text();
 
     $.post("step-add", {cardName, cardInfo, projectName}, function(data){
-        console.log("test");
-        $("#card-input").prepend('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
-        $("#"+cardName.split(' ').join('_')).css("margin", '10px');
-        $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>')
-        $("#"+cardName.split(' ').join('_')).children().last().append('<h5 class="card-title">'+cardName+'</h5>')
-        .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>');
-        // put checkbox here
-        $("#"+cardName.split(' ').join('_')).append('<ul id="chk_'+cardName.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
-        $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>');
-        $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
-        $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="taskDelete(this)" class="card-link">Delete Card</a>');
+        if(data.name != "error"){
+            $("#card-input").prepend('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
+            $("#"+cardName.split(' ').join('_')).css("margin", '10px');
+            $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>')
+            $("#"+cardName.split(' ').join('_')).children().last().append('<h5 class="card-title">'+cardName+'</h5>')
+            .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>');
+            // put checkbox here
+            $("#"+cardName.split(' ').join('_')).append('<ul id="chk_'+cardName.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
+            $("#"+cardName.split(' ').join('_')).append('<div class="card-body"></div>');
+            $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
+            $("#"+cardName.split(' ').join('_')).children().last().append('<a href="#" onclick="taskDelete(this)" class="card-link">Delete Card</a>');
 
-        $("#myModal").modal('hide');
+            $("#myModal").modal('hide');
+        }
+        console.log(data.name)
     });
 }
 
