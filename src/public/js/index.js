@@ -88,6 +88,7 @@ function selectProj(project){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
         console.log(data)
+        $("#card-input").append('<button type="button" class="btn btn-info btn-md" style="background-color: #3399ff" id="newStep">New Step</button>');
         for(let i in data){
             $("#card-input").prepend('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#"+data[i].stepname.split(' ').join('_')).css("margin", '10px');
