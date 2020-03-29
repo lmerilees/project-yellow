@@ -127,7 +127,8 @@ app.post("/getProjectData", function(req,res){
     if(err){
       res.send("err");
     }else{
-      res.send(result);
+      // console.log(result.rows)
+      res.send(result.rows);
     }
   });
 });
@@ -147,7 +148,8 @@ app.post("/getStepsData", function(req,res){
 
 // delete project
 app.post("/deleteProject", function(req,res){
-  let sql = "SELECT project_id FROM projects WHERE project_name = '" + req.body.projectName + "'"
+  let sql = "SELECT project_name FROM projects WHERE project_name = '" + req.body.projectName + "'"
+  console.log()
   pool.query(sql, function(err,result){
     if(err){
       res.send("err in project name");
