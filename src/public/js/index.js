@@ -82,7 +82,7 @@ function saveProject(){
     // Load project - show cards
 function selectProj(project){
     $("#title").empty();
-
+    $("#card-input").empty();
     // server get data from projectid and User_id
     $.post("getProjectData", {projectName:project.id}, function(data){
         // this is where we populate the page with steps
