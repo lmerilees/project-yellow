@@ -195,7 +195,7 @@ function taskSave(curItem){
     let stepName = $(curItem).parent().prev().prev().children().first().children().first()[0].id;
 
     $.post("task-add", {taskName, stepName}, function(data){
-    
+
         $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
         .append('<input class="form-check-input" type="checkbox" value="" id="t_'+taskid[0] +'"> ')
         .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>')
@@ -208,14 +208,11 @@ function taskSave(curItem){
 function taskDelete(curItem){
     let deleteThis = $(curItem).parent().parent();
     let taskName = $(curItem).parent().prev().prev().children().first().text()
-    $.ajax({
-        url: "task-delete",
-        type: 'DELETE',
-        data: taskName, 
-        success: function(data){
+    let stepName = $(curItem).parent().parent().parent().text();
+    
+    $.post("task-delete", {taskName, stepName}, function(data){
             if(data=="true"){
                 deleteThis.remove()
             }
-        }
     })
 }
