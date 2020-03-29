@@ -148,31 +148,14 @@ app.post("/getStepsData", function(req,res){
 
 // delete project
 app.post("/deleteProject", function(req,res){
-  let sql = "SELECT project_name FROM projects WHERE project_name = '" + req.body.projectName + "'"
-  console.log()
+  let sql = "DELETE FROM projects WHERE project_name = '" + req.body.projectName + "'"
+
   pool.query(sql, function(err,result){
+    console.log("test");
     if(err){
-      res.send("err in project name");
+      res.send(err)
     }else{
-      sql = "DELETE FROM steps where project_id = " + result.rows[0].project_id
-      pool.query(sql, function(err){
-        if(err){
-          // console.log("test");
-          res.send("deleted");
-          pool.query("DELETE FROM projects where project_id = " + result.rows[0].project_id,function(err){
-            if(err){
-              console.log("error in deleting project")
-            }
-          });
-        }else{
-          pool.query("DELETE FROM projects where project_id = " + result.rows[0].project_id, function(err){
-            if(err){
-              console.log("error in deleting project")
-            }
-          })
-          res.send("deleted");
-        }
-      });
+      res.send("deleted")
     }
   });
 });
