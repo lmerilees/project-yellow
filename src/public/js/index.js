@@ -93,7 +93,7 @@ function selectProj(project){
             $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
             $("#card-input").children().last().append('<div class="card-body"></div>')
-            $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>')
+            $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
             // put checkbox here
             $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
@@ -192,11 +192,13 @@ function taskSave(curItem){
 
     $.post("task-add", {taskName, stepName}, function(data){
 
-        $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
-        .append('<input class="form-check-input" type="checkbox" value="" id="t_'+taskid[0] +'"> ')
-        .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>')
-        .append('<button type="button" class="btn btn-primary" onclick="taskDelete(this);" id="card-save">Task Complete</button>');
-        $("#myModal").modal('hide');
+        if (data == "Task added!"){ 
+            $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
+            .append('<input class="form-check-input" type="checkbox" value="" id="t_'+taskid[0] +'"> ')
+            .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>')
+            .append('<button type="button" class="btn btn-primary" onclick="taskDelete(this);" id="card-save">Task Complete</button>');
+            $("#myModal").modal('hide');
+        }
 
     });
 }
