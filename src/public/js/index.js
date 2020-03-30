@@ -95,7 +95,14 @@ function selectProj(project){
             $("#card-input").children().last().append('<div class="card-body"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
-            // put checkbox here
+
+
+            // NEED TO FIX THIS
+            // $("#card-input").children().last().append('<li class="list-group-item"></li>').children().last()
+            // .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
+            // .append('<label class="form-check-label" for="t_'+data[i].taskname.split().join("_")+'"> '+data[i].taskname+' </label>')
+
+
             $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
             $("#card-input").children().last().append('<div class="card-body"></div>');
             $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
@@ -103,6 +110,7 @@ function selectProj(project){
         }
     });
 }
+
 
 
 
@@ -209,7 +217,7 @@ function boxSelect(data){
     if(data.checked){
       bool = 'TRUE'
     } else{
-      boole = 'FALSE'
+      bool = 'FALSE'
     }
     $.post("alter-check", {data:bool , step:stepname, task:taskname}, function(data){
         console.log(data);

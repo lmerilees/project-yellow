@@ -123,27 +123,18 @@ app.post("/getUserID", function(req, res){
 
 // populate steps for current project
 app.post("/getProjectData", function(req,res){
+  //NEED To FIX THIS
   pool.query("SELECT * FROM steps WHERE project_name ='" + req.body.projectName +"'", function(err, result){
     if(err){
       res.send("err");
     }else{
-      // console.log(result.rows)
+      console.log(result.rows)
       res.send(result.rows);
     }
   });
 });
 
 
-// populate tasks for current step
-app.post("/getStepsData", function(req,res){
-  pool.query("SELECT * FROM tasks WHERE stepname ='" + req.body.stepName +"'", function(err, result){
-    if(err){
-      res.send("err");
-    }else{
-      res.send(result);
-    }
-  });
-});
 
 
 // delete project
