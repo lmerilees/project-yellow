@@ -93,7 +93,7 @@ function selectProj(project){
             $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
             $("#card-input").children().last().append('<div class="card-body"></div>')
-            $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>')
+            $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
             // put checkbox here
             $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
