@@ -206,17 +206,40 @@ app.post("/step-delete", function(req, res){
 
 // Insert task data to cards table
 app.post("/task-add", function(req, res){
-  let sql = "INSERT INTO tasks (task_id, taskname, stepname) VALUES(DEFAULT, " + "'" + req.body.taskName + "'" + ", " + "'" + req.body.stepName + "'" + ')';
+  let value;
+  if(req.body.check){
+    value = "TRUE"
+  }else{
+    value = "FALSE"
+  }
+  let sql = "INSERT INTO tasks (task_id, taskname, stepname, checkvalue) VALUES(DEFAULT, "
+   + "'" + req.body.taskName + "'" + ", " + "'" + req.body.stepName + "'" + ','+ value +' )';
+   console.log(req.body.taskName, req.body.stepName)
+  
   pool.query(sql, (err, results) => {
     console.log(sql);
     if (err){
-      throw err
+      res.send(err)
     }
     else{
       res.send("Task added!")
     }
   })
-})
+});
+
+app.post("/alter-check", function(req,res){
+
+  let sql = "UPDATE tasks SET checkvalue = " +req.body.data+" WHERE stepname = '"
+  +req.body.step+"' AND taskname = '"+req.body.task+"'"
+  console.log(sql);
+  pool.query(sql, (err,result) => {
+    if(err){
+      res.send(err);
+    }else{
+      res.send(result);
+    }
+  });
+});
 
 //remove task data from cards table
 app.post("/task-delete", function(req, res){

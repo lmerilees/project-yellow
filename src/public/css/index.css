@@ -131,3 +131,15 @@ ul ul a {
     text-align: center;
     font-size: 30px;
 }
+
+#user{
+    height: 7%;
+}
+#username{
+    margin: 0px;
+}
+
+#row{
+    width: 100%;
+    /* position:absolute */
+}

@@ -62,7 +62,7 @@ function saveProject(){
     $.post("project-add", {proj_name:projectName, user_id:User_Id}, function(data){
         if(data == "added"){
             // add select to html
-            $('#append-project').append("<li id="+projectName.split(' ').join('_')+"></li>")
+            $('#append-project').append("<li id="+projectName.split(' ').join('_')+"></li>");
             $('#append-project').children().last().append('<a href="#t'+ projectName.split(' ').join('_')+'" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'+ projectName +'</a>')
             .append('<ul class="collapse list-unstyled" id="t'+projectName.split(' ').join('_')+'"></ul>');
             $('#append-project').children().last().children().last().append('<li></li>');
@@ -191,16 +191,30 @@ function taskSave(curItem){
     // append to database
     let taskName = $("#task-input").val();
     let stepName = $(curItem).parent().prev().prev().children().first().children().first()[0].id;
-
     $.post("task-add", {taskName, stepName}, function(data){
-
-        $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
-        .append('<input class="form-check-input" type="checkbox" value="" id="t_'+taskid[0] +'"> ')
-        .append('<label class="form-check-label" for="t_'+taskid[0]+'"> '+taskName+' </label>')
-        .append('<button type="button" class="btn btn-primary" onclick="taskDelete(this);" id="card-save">Task Complete</button>');
-        $("#myModal").modal('hide');
-
+        if(data.name != "error"){
+            $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
+            .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
+            .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
+            $("#myModal").modal('hide');
+        }
+        console.log(data);
     });
+}
+
+function boxSelect(data){
+    let stepname = data.id.substring(data.id.indexOf('_')+1)
+    let taskname = $(data).next().text().trim();
+    let bool;
+    if(data.checked){
+      bool = 'TRUE'
+    } else{
+      boole = 'FALSE'
+    }
+    $.post("alter-check", {data:bool , step:stepname, task:taskname}, function(data){
+        console.log(data);
+    });
+
 }
 
 function taskDelete(curItem){
