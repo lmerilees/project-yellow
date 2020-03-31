@@ -230,7 +230,7 @@ app.post("/alter-check", function(req,res){
 
 //remove task data from cards table
 app.post("/task-delete", function(req, res){
-  let sql = "DELETE FROM tasks WHERE taskname = '" + req.body.taskName + "'"
+  let sql = "DELETE FROM tasks WHERE taskname = '" + req.body.taskName + "' AND stepname = '" + req.body.stepName + "')"; 
   pool.query(sql, (err, results) => {
     console.log(sql);
     if (err){
