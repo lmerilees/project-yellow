@@ -43,7 +43,7 @@ app.post("/login",function(req, res){
       res.send("Username or Password is incorrect!");
     }
   });
-
+});
 
   // get current session username
 app.post("/getUser", function(req, res){
@@ -55,11 +55,7 @@ app.get("/index", function(req,res){
     if(req.session.loggedin){
       res.sendFile(path.resolve(__dirname, '../html',"index.html"))
     }
-    // need to get data from database and send to html js 
-    // to display on page
   });
-
-});
 
 app.get("/register", function(req,res){
   res.sendFile(path.resolve(__dirname, '../html',"register.html"))
