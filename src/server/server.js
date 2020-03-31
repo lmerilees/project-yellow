@@ -120,7 +120,7 @@ app.post("/getUserID", function(req, res){
 // populate steps for current project
 app.post("/getProjectData", function(req,res){
   //NEED To FIX THIS
-  pool.query("SELECT steps.stepname, tasks.taskname FROM steps INNER JOIN tasks ON steps.stepname = tasks.stepname WHERE project_name ='" + req.body.projectName +"'", function(err, result){
+  pool.query("SELECT steps, tasks FROM steps INNER JOIN tasks ON steps.stepname = tasks.stepname WHERE project_name ='" + req.body.projectName +"'", function(err, result){
     if(err){
       res.send("err");
     }else{
