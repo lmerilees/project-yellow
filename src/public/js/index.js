@@ -92,7 +92,7 @@ function selectProj(project){
         for(let i in data){
             $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
-            $("#card-input").children().last().append('<div class="card-body"></div>')
+            $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
 
@@ -156,7 +156,7 @@ function stepSave(){
        if(data.name != "error"){
             $("#card-input").append('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
-            $("#card-input").children().last().append('<div class="card-body"></div>')
+            $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+cardName +'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>' + " ");
             // put checkbox here
@@ -173,10 +173,10 @@ function stepSave(){
 }
 
 function stepDelete(step){
-    let stepName = $(step).parent().parent().text().split(" ")[1];    
+    let stepName = $(step).parent().parent().children().first().children().first().text()
     let deleteThis = $(step).parent().parent();
 
-    console.log(stepName);
+    console.log($(step).parent().parent().children().first().children().first().text());
 
     $.post("step-delete", {stepName}, function(data){
         if(data=="true"){
@@ -235,4 +235,27 @@ function taskDelete(curItem){
                 deleteThis.remove()
             }
     })
+}
+
+function cardModal(curItem){
+    
+    console.log($(curItem).children().first().text());
+    // get card data
+
+    // change modal data
+    $("#modal-header").empty();
+    $("#append-body").empty();
+    $("#append-foot").empty();
+    $("#modal-header").append("<h3>"+$(curItem).children().first().text()+"</h3>");
+    
+    // append info
+
+    // get all checks
+
+    // appends checks to page
+    $("#append-body").append("");
+    $("#append-foot").append('<button type="button" class="btn btn-primary" data-dismiss="modal" >Close</button>');
+    $("#myModal").modal({show:true});
+
+    // displat modal
 }
