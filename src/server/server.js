@@ -124,7 +124,7 @@ app.post("/getUserID", function(req, res){
 // populate steps for current project
 app.post("/getProjectData", function(req,res){
   //NEED To FIX THIS
-  pool.query("SELECT * FROM steps WHERE project_name ='" + req.body.projectName +"'", function(err, result){
+  pool.query("SELECT steps.stepname, tasks.taskname FROM steps INNER JOIN tasks ON steps.stepname = tasks.stepname WHERE project_name ='" + req.body.projectName +"'", function(err, result){
     if(err){
       res.send("err");
     }else{
@@ -208,11 +208,13 @@ app.post("/task-add", function(req, res){
    console.log(req.body.taskName, req.body.stepName)
   
   pool.query(sql, (err, results) => {
-    console.log(sql);
+    
     if (err){
+      console.log(err)
       res.send(err)
     }
     else{
+      console.log(sql);
       res.send("Task added!")
     }
   })
@@ -222,11 +224,12 @@ app.post("/alter-check", function(req,res){
 
   let sql = "UPDATE tasks SET checkvalue = " +req.body.data+" WHERE stepname = '"
   +req.body.step+"' AND taskname = '"+req.body.task+"'"
-  console.log(sql);
+  
   pool.query(sql, (err,result) => {
     if(err){
       res.send(err);
     }else{
+      console.log(sql);
       res.send(result);
     }
   });
@@ -236,11 +239,12 @@ app.post("/alter-check", function(req,res){
 app.post("/task-delete", function(req, res){
   let sql = "DELETE FROM tasks WHERE taskname = '" + req.body.taskName + "' AND stepname = '" + req.body.stepName + "')"; 
   pool.query(sql, (err, results) => {
-    console.log(sql);
+    
     if (err){
       throw err
     }
     else{
+      console.log(sql);
       res.send("true")
     }
   })
