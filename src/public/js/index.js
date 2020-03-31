@@ -96,10 +96,30 @@ function selectProj(project){
             // tasks = data[i].tasks.replace(/[()]/g,'').split(",");
             console.log(steps);
 
-            if(cur == data[i].stepname){
+            if(cur == data[i].stepname && steps.taskname != null){
                 $('#chk_'+data[i].stepname.split(' ').join('_')).append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
                 .append('<label class="form-check-label" for="t_'+data[i].stepname.split().join("_")+'"> '+data[i].taskname+' </label>')    
+            }else if (steps.taskname == null){
+                cur = data[i].stepname
+                $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
+                $("#card-input").children().last().css("margin", '10px');
+                $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
+                $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
+                .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
+
+
+                // NEED TO FIX THIS
+                // $("#card-input").children().last()
+
+
+                // $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>').children().last().append('<li class="list-group-item"></li>').children().last()
+                // .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
+                // .append('<label class="form-check-label" for="t_'+data[i].taskname.split().join("_")+'"> '+data[i].taskname+' </label>')
+
+                $("#card-input").children().last().append('<div class="card-body"></div>');
+                $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
+                $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
             }else{
                 cur = data[i].stepname
                 $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
@@ -116,6 +136,7 @@ function selectProj(project){
                 $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>').children().last().append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
                 .append('<label class="form-check-label" for="t_'+data[i].taskname.split().join("_")+'"> '+data[i].taskname+' </label>')
+
                 $("#card-input").children().last().append('<div class="card-body"></div>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
