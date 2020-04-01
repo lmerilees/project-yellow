@@ -217,13 +217,19 @@ function stepSave(){
 }
 
 function stepDelete(step){
+    let projectName = $("#title1").text();
     let stepName = $(step).parent().parent().children().first().children().first().text()
     let deleteThis = $(step).parent().parent();
 
-    $.post("step-delete", {stepName}, function(data){
-        if(data=="true"){
-            deleteThis.remove()
-        }
+    $.post('get-step-id', {stepName, projectName}, function(data){
+        let step_id = data.rows[0].step_id;
+
+        $.post("step-delete", {step_id}, function(data){
+            if(data=="true"){
+                deleteThis.remove()
+            }
+        })
+
     })
 }
 
@@ -239,58 +245,77 @@ function newTask(curItem){
 }
 
 function taskSave(curItem){
-    // append to database
+    let projectName = $("#title1").text();
     let taskName = $("#task-input").val();
     let stepName = $(curItem).parent().prev().prev().children().first().children().first()[0].id.split("_").join(" ");
-    console.log(stepName)
-    $.post("task-add", {taskName, stepName}, function(data){
-        if(data.name != "error"){
-            console.log("test");
-            $("#chk_"+stepName.split(" ").join("_")).append('<li class="list-group-item"></li>').children().last()
-            .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
-            .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
-            .append(`
-                <div class="dropdown float-right">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="material-icons">
-                            arrow_drop_down
-                        </span>
-                    </a>
-          
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" onclick="taskDelete(this)" href="#">Delete</a>
-                    </div>
-                </div>`);
-            $("#myModal").modal('hide');
-        }else{
-            console.log(data)
-        }
-    });
+
+    $.post("get-step-id", {stepName, projectName}, function(data){
+        let step_id = data.rows[0].step_id;
+
+        $.post("task-add", {taskName, step_id}, function(data){
+            if(data.name != "error"){
+                console.log("test");
+                $("#chk_"+stepName.split(" ").join("_")).append('<li class="list-group-item"></li>').children().last()
+                .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
+                .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
+                .append(`
+                    <div class="dropdown float-right">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="material-icons">
+                                arrow_drop_down
+                            </span>
+                        </a>
+              
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" onclick="taskDelete(this)" href="#">Delete</a>
+                        </div>
+                    </div>`);
+                $("#myModal").modal('hide');
+            }else{
+                console.log(data)
+            }
+        });
+
+
+    })
+
 }
 
 function boxSelect(data){
-    let stepname = data.id.substring(data.id.indexOf('_')+1)
+    let projectName = $("#title1").text();
+    let stepName = data.id.substring(data.id.indexOf('_')+1)
     let taskname = $(data).next().text().trim();
     let bool;
+
     if(data.checked){
       bool = 'TRUE'
     } else{
       bool = 'FALSE'
     }
-    $.post("alter-check", {data:bool , step:stepname, task:taskname}, function(data){
-    });
 
+    $.post("get-step-id", {stepName, projectName}, function(data){
+        let step_id = data.rows[0].step_id;
+
+        $.post("alter-check", {data:bool , step:step_id, task:taskname}, function(data){
+        });
+    });
 }
 
 function taskDelete(curItem){
+    let projectName = $("#title1").text();
     let task = $(curItem).parent().parent().parent().children().next()[0].textContent;
     let deleteThis = $(curItem).parent().parent().parent()
-    let step = $(curItem).parent().parent().parent().parent().prev().children().text()
-    $.post("task-delete", {taskName:task, stepName:step}, function(data){
-        console.log(data)    
-        if(data=="true"){
-                deleteThis.remove()
-            }
+    let stepName = $(curItem).parent().parent().parent().parent().prev().children().text()
+
+    $.post("get-step-id", {stepName, projectName}, function(data){
+        let step_id = data.rows[0].step_id;
+
+        $.post("task-delete", {taskName:task, step_id:step_id}, function(data){
+            console.log(data)    
+            if(data=="true"){
+                    deleteThis.remove()
+                }
+        });
     });
 }
 
