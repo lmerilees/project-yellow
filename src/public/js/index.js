@@ -193,7 +193,7 @@ function deleteProj(project){
 
 function stepSave(){
     let cardName = $("#append-body #project-input").val().trim();
-    let cardInfo = $("#append-body").children().last().val();
+    let cardInfo = $("#append-body").children().last().prev().val();
     let projectName = $("#title1").text();
 
     $.post("step-add", {cardName, cardInfo, projectName}, function(data){
