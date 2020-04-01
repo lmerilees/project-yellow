@@ -62,7 +62,7 @@ $(document).ready(function () {
 
 function saveProject(){
     // send project name to database
-    let projectName = $("#append-body #project-input").val().trim().replace(/[^a-z0-9]/gi,'');
+    let projectName = $("#append-body #project-input").val().trim().replace(/[^a-z0-9 " "]/gi,'');
     project_name = projectName;
     $.post("project-add", {proj_name:projectName, user_id:User_Id}, function(data){
         if(data == "added"){
