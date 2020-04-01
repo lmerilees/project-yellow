@@ -167,3 +167,9 @@ ul ul a {
     font-size: small;
     color: gray;
 }
+#charNum{
+    position: absolute;  
+    bottom: 20px;
+    right: 20px;
+    color: gray;
+}

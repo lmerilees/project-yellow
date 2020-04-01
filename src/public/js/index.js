@@ -35,7 +35,9 @@ $(document).ready(function () {
             // append modal title and input field and show modal
             $("#modal-header").append("New Step");
             $("#append-body").append("<input type='text' id='project-input' class='form-control' placeholder='Step name'> </input>");
-            $("#append-body").append("<textarea class='form-control id='step-info' rows='3' placeholder=\"Step information\"></textarea> ");
+            $("#append-body").append("<textarea class='form-control' onkeyup='limitText()' id='step-info' rows='3' placeholder=\"Step information\"></textarea> ")
+            .append(`<span id="charNum">255</span>`)
+
             $("#append-foot").append('<button type="button" class="btn btn-primary" onclick="stepSave();" id="card-save">Save changes</button>');
             $("#myModal").modal({show:true});
         }
@@ -57,17 +59,6 @@ $(document).ready(function () {
     });
 
 });
-
-$('textarea').keypress(function(e) {
-    var tval = $('textarea').val(),
-        tlength = tval.length,
-        set = 50,
-        remain = parseInt(set - tlength);
-    // $('p').text(remain);
-    // if (remain <= 0 && e.which !== 0 && e.charCode !== 0) {
-    //     $('textarea').val((tval).substring(0, tlength - 1))
-    // }
-})
 
 function saveProject(){
     // send project name to database
@@ -212,7 +203,6 @@ function stepSave(){
             $("#card-input").children().last().append('<div class="card-body"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+cardName +'</h5>' + " ")
             .append('<div class="card-text" id="info">'+cardInfo+'</div>' + " ");
-            console.log(cardInfo);
             // put checkbox here
             $("#card-input").children().last().append('<ul id="chk_'+cardName.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
             $("#card-input").children().last().append('<div class="card-body"></div>');
@@ -302,4 +292,15 @@ function taskDelete(curItem){
                 deleteThis.remove()
             }
     });
+}
+
+function limitText(){
+    var tval = $('textarea').val(),
+        tlength = tval.length,
+        set = 255,
+        remain = parseInt(set - tlength);
+    $('#charNum').text(set - tlength);
+    if (remain <= 0) {
+        $('textarea').val((tval).substring(0, tlength - 1))
+    }
 }
