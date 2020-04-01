@@ -55,7 +55,19 @@ $(document).ready(function () {
         $("#append-foot").append('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>');
         $("#myModal").modal({show:true});
     });
+
 });
+
+$('textarea').keypress(function(e) {
+    var tval = $('textarea').val(),
+        tlength = tval.length,
+        set = 50,
+        remain = parseInt(set - tlength);
+    // $('p').text(remain);
+    // if (remain <= 0 && e.which !== 0 && e.charCode !== 0) {
+    //     $('textarea').val((tval).substring(0, tlength - 1))
+    // }
+})
 
 function saveProject(){
     // send project name to database
@@ -116,7 +128,7 @@ function selectProj(project){
                 $("#card-input").children().last().css("margin", '10px');
                 $("#card-input").children().last().append('<div class="card-body"></div>')
                 $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
-                .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
+                .append('<div class="card-text" id="info">'+data[i].stepinfo+'</div>');
                 $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
 
                 $("#card-input").children().last().append('<div class="card-body"></div>');
@@ -130,7 +142,7 @@ function selectProj(project){
                 $("#card-input").children().last().css("margin", '10px');
                 $("#card-input").children().last().append('<div class="card-body" ></div>')
                 $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
-                .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
+                .append('<div class="card-text" id="info">'+data[i].stepinfo+'</div>');
                 // task append
                 $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>').children().last().append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
@@ -199,7 +211,8 @@ function stepSave(){
             $("#card-input").children().last().css("margin", '10px');
             $("#card-input").children().last().append('<div class="card-body"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+cardName +'</h5>' + " ")
-            .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>' + " ");
+            .append('<div class="card-text" id="info">'+cardInfo+'</div>' + " ");
+            console.log(cardInfo);
             // put checkbox here
             $("#card-input").children().last().append('<ul id="chk_'+cardName.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
             $("#card-input").children().last().append('<div class="card-body"></div>');

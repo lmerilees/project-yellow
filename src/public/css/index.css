@@ -158,7 +158,12 @@ ul ul a {
 
 #card-input{
     width: 100%;
-     display: flex;
-     flex-wrap: wrap;
-     align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
    }
+#info{
+    font-size: small;
+    color: gray;
+}
