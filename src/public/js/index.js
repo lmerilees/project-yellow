@@ -97,9 +97,15 @@ function selectProj(project){
         for(let i in data){
             steps = data[i]
             if(cur == data[i].stepname && steps.taskname != null){
-                $('#chk_'+data[i].stepname.split(' ').join('_')).append('<li class="list-group-item"></li>').children().last()
-                .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
-                .append('<label class="form-check-label" for="t_'+data[i].stepname.split().join("_")+'"> '+data[i].taskname+' </label>')    
+
+                $('#chk_'+data[i].stepname.split(' ').join('_')).append('<li class="list-group-item"></li>');
+                if(data[i].checkvalue){
+                    $('#chk_'+data[i].stepname.split(' ').join('_')).children().last().append('<input class="form-check-input" type="checkbox" checked id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ');
+                }else{
+                    $('#chk_'+data[i].stepname.split(' ').join('_')).children().last().append('<input class="form-check-input" type="checkbox"  id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ');
+
+                }
+                $('#chk_'+data[i].stepname.split(' ').join('_')).children().last().append('<label class="form-check-label" for="t_'+data[i].stepname.split().join("_")+'"> '+data[i].taskname+' </label>')    
                 .append(`
                 <div class="dropdown float-right">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
