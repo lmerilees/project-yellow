@@ -12,9 +12,6 @@ $(document).ready(function () {
         allProjects(User_Id);
     });
 
-    // $.post("getProjectID",function(data){
-    //     User_Id = data.rows[0].user_id;
-    // });
 
     // this function handles the sidebar collapse
     $('#sidebarCollapse').on('click', function () {
@@ -89,54 +86,64 @@ function selectProj(project){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
         let cur;
-        console.log(data);
         for(let i in data){
             steps = data[i]
-            // steps = data[i].steps.replace(/[()]/g,'').split(",");
-            // tasks = data[i].tasks.replace(/[()]/g,'').split(",");
-            console.log(steps);
-
             if(cur == data[i].stepname && steps.taskname != null){
                 $('#chk_'+data[i].stepname.split(' ').join('_')).append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
                 .append('<label class="form-check-label" for="t_'+data[i].stepname.split().join("_")+'"> '+data[i].taskname+' </label>')    
+                .append(`
+                <div class="dropdown float-right">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="material-icons">
+                            arrow_drop_down
+                        </span>
+                    </a>
+          
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Edit</a>
+                    <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>`);
             }else if (steps.taskname == null){
                 cur = data[i].stepname
+                // When there are no tasks
                 $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
                 $("#card-input").children().last().css("margin", '10px');
-                $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
+                $("#card-input").children().last().append('<div class="card-body"></div>')
                 $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
                 .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
-
-
-                // NEED TO FIX THIS
-                // $("#card-input").children().last()
-
-
-                // $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>').children().last().append('<li class="list-group-item"></li>').children().last()
-                // .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
-                // .append('<label class="form-check-label" for="t_'+data[i].taskname.split().join("_")+'"> '+data[i].taskname+' </label>')
-
                 $("#card-input").children().last().append('<div class="card-body"></div>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
             }else{
+                // when there is a task
                 cur = data[i].stepname
+                // card append
                 $("#card-input").append('<div id="'+data[i].stepname.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
                 $("#card-input").children().last().css("margin", '10px');
-                $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
+                $("#card-input").children().last().append('<div class="card-body" ></div>')
                 $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
                 .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
-
-
-                // NEED TO FIX THIS
-                // $("#card-input").children().last()
-
-
+                // task append
                 $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>').children().last().append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+data[i].stepname.split().join("_") +'" onclick="boxSelect(this)"> ')
                 .append('<label class="form-check-label" for="t_'+data[i].taskname.split().join("_")+'"> '+data[i].taskname+' </label>')
+                .append(`
+                <div class="dropdown float-right">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="material-icons">
+                            arrow_drop_down
+                        </span>
+                    </a>
+          
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Edit</a>
+                    <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>`)
 
+                // card foot append
                 $("#card-input").children().last().append('<div class="card-body"></div>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
@@ -144,10 +151,6 @@ function selectProj(project){
         }
     });
 }
-
-
-
-
 
 function deleteProj(project){
     if(project.id == $("#title1").text()){
@@ -190,7 +193,7 @@ function stepSave(){
        if(data.name != "error"){
             $("#card-input").append('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
-            $("#card-input").children().last().append('<div class="card-body" onclick="cardModal(this)"></div>')
+            $("#card-input").children().last().append('<div class="card-body"></div>')
             $("#card-input").children().last().children().last().append('<h5 class="card-title">'+cardName +'</h5>' + " ")
             .append('<h6 class="card-text overflow-auto">'+cardInfo+'</h6>' + " ");
             // put checkbox here
@@ -238,6 +241,19 @@ function taskSave(curItem){
             $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
             .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
             .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
+            .append(`
+                <div class="dropdown float-right">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="material-icons">
+                            arrow_drop_down
+                        </span>
+                    </a>
+          
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>`);
             $("#myModal").modal('hide');
         }
         console.log(data);
@@ -269,27 +285,4 @@ function taskDelete(curItem){
                 deleteThis.remove()
             }
     })
-}
-
-function cardModal(curItem){
-    
-    console.log($(curItem).children().first().text());
-    // get card data
-
-    // change modal data
-    $("#modal-header").empty();
-    $("#append-body").empty();
-    $("#append-foot").empty();
-    $("#modal-header").append("<h3>"+$(curItem).children().first().text()+"</h3>");
-    
-    // append info
-
-    // get all checks
-
-    // appends checks to page
-    $("#append-body").append("");
-    $("#append-foot").append('<button type="button" class="btn btn-primary" data-dismiss="modal" >Close</button>');
-    $("#myModal").modal({show:true});
-
-    // displat modal
 }

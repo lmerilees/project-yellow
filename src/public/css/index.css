@@ -141,5 +141,8 @@ ul ul a {
 
 #row{
     width: 100%;
-    /* position:absolute */
 }
+
+.dropdown-toggle::after { 
+    content: none; 
+} 
