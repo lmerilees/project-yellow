@@ -18,22 +18,27 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
     });
 
-    // TODO
+    $("#title1").html("Welcome!");
+
     // create model and append card to html
     $("#newStep").on('click',() => {
-        console.log("test");
-        // clear remaining data from modal
-        $("#modal-header").empty();
-        $("#append-body").empty();
-        $("#append-foot").empty();
 
-        // append modal title and input field and show modal
-        $("#modal-header").append("New Step");
-        $("#append-body").append("<input type='text' id='project-input' class='form-control' placeholder='Step name'> </input>");
-        $("#append-body").append("<textarea class='form-control id='step-info' rows='3' placeholder=\"Step information\"></textarea> ");
-        $("#append-foot").append('<button type="button" class="btn btn-primary" onclick="stepSave();" id="card-save">Save changes</button>');
-        $("#myModal").modal({show:true});
-
+        // check if project has been selected
+        if( $("#title1").text() == "Welcome!"){
+            alert("Create or Select a project first!")
+        }
+        else{
+            // clear remaining data from modal
+            $("#modal-header").empty();
+            $("#append-body").empty();
+            $("#append-foot").empty();
+            // append modal title and input field and show modal
+            $("#modal-header").append("New Step");
+            $("#append-body").append("<input type='text' id='project-input' class='form-control' placeholder='Step name'> </input>");
+            $("#append-body").append("<textarea class='form-control id='step-info' rows='3' placeholder=\"Step information\"></textarea> ");
+            $("#append-foot").append('<button type="button" class="btn btn-primary" onclick="stepSave();" id="card-save">Save changes</button>');
+            $("#myModal").modal({show:true});
+        }
     });
 
     // shows the modal for project name 
@@ -189,7 +194,6 @@ function stepSave(){
     let projectName = $("#title1").text();
 
     $.post("step-add", {cardName, cardInfo, projectName}, function(data){
-        console.log(data);
        if(data.name != "error"){
             $("#card-input").append('<div id="'+cardName.split(' ').join('_')+'" class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> </div>');
             $("#card-input").children().last().css("margin", '10px');
@@ -212,8 +216,6 @@ function stepSave(){
 function stepDelete(step){
     let stepName = $(step).parent().parent().children().first().children().first().text()
     let deleteThis = $(step).parent().parent();
-
-    console.log($(step).parent().parent().children().first().children().first().text());
 
     $.post("step-delete", {stepName}, function(data){
         if(data=="true"){
@@ -256,7 +258,6 @@ function taskSave(curItem){
                 </div>`);
             $("#myModal").modal('hide');
         }
-        console.log(data);
     });
 }
 
@@ -270,7 +271,6 @@ function boxSelect(data){
       bool = 'FALSE'
     }
     $.post("alter-check", {data:bool , step:stepname, task:taskname}, function(data){
-        console.log(data);
     });
 
 }
