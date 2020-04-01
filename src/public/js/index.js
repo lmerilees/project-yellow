@@ -106,8 +106,7 @@ function selectProj(project){
                     </a>
           
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item" href="#">Delete</a>
+                    <a class="dropdown-item" onclick="taskDelete(this)" href="#">Delete</a>
                     </div>
                 </div>`);
             }else if (steps.taskname == null){
@@ -118,6 +117,8 @@ function selectProj(project){
                 $("#card-input").children().last().append('<div class="card-body"></div>')
                 $("#card-input").children().last().children().last().append('<h5 class="card-title">'+data[i].stepname+'</h5>' + " ")
                 .append('<h6 class="card-text overflow-auto">'+data[i].stepinfo+'</h6>');
+                $("#card-input").children().last().append('<ul id="chk_'+data[i].stepname.split(' ').join('_')+'" class="list-group list-group-flush"></ul>')
+
                 $("#card-input").children().last().append('<div class="card-body"></div>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="newTask(this)" class="card-link">New Task</a>');
                 $("#card-input").children().last().children().last().append('<a href="#" onclick="stepDelete(this)" class="card-link">Delete Card</a>');
@@ -143,8 +144,7 @@ function selectProj(project){
                     </a>
           
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item" href="#">Delete</a>
+                    <a class="dropdown-item" onclick="taskDelete(this)" href="#">Delete</a>
                     </div>
                 </div>`)
 
@@ -228,6 +228,7 @@ function newTask(curItem){
     $("#modal-header").empty();
     $("#append-body").empty();
     $("#append-foot").empty();
+    console.log($(curItem).parent().prev().prev().children().first().text().split(" ").join('_'))
     $("#modal-header").append("<h3 id='"+$(curItem).parent().prev().prev().children().first().text().split(" ").join('_')+"'>New Task</h3>");
     $("#append-body").append("<input type='text' id='task-input' class='form-control' placeholder='Step name'> </input>");
     $("#append-foot").append('<button type="button" class="btn btn-primary" onclick="taskSave(this);" id="card-save">Save changes</button>');
@@ -237,10 +238,12 @@ function newTask(curItem){
 function taskSave(curItem){
     // append to database
     let taskName = $("#task-input").val();
-    let stepName = $(curItem).parent().prev().prev().children().first().children().first()[0].id;
+    let stepName = $(curItem).parent().prev().prev().children().first().children().first()[0].id.split("_").join(" ");
+    console.log(stepName)
     $.post("task-add", {taskName, stepName}, function(data){
         if(data.name != "error"){
-            $("#chk_"+ stepName).append('<li class="list-group-item"></li>').children().last()
+            console.log("test");
+            $("#chk_"+stepName.split(" ").join("_")).append('<li class="list-group-item"></li>').children().last()
             .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
             .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
             .append(`
@@ -252,11 +255,12 @@ function taskSave(curItem){
                     </a>
           
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item" onclick="taskDelete(this)" href="#">Delete</a>
                     </div>
                 </div>`);
             $("#myModal").modal('hide');
+        }else{
+            console.log(data)
         }
     });
 }
@@ -276,13 +280,13 @@ function boxSelect(data){
 }
 
 function taskDelete(curItem){
-    let deleteThis = $(curItem).parent().parent();
-    let taskName = $(curItem).parent().prev().prev().children().first().text()
-    let stepName = $(curItem).parent().parent().parent().text();
-    
-    $.post("task-delete", {taskName, stepName}, function(data){
-            if(data=="true"){
+    let task = $(curItem).parent().parent().parent().children().next()[0].textContent;
+    let deleteThis = $(curItem).parent().parent().parent()
+    let step = $(curItem).parent().parent().parent().parent().prev().children().text()
+    $.post("task-delete", {taskName:task, stepName:step}, function(data){
+        console.log(data)    
+        if(data=="true"){
                 deleteThis.remove()
             }
-    })
+    });
 }

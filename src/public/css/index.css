@@ -147,3 +147,12 @@ ul ul a {
 .dropdown-toggle::after { 
     content: none; 
 } 
+#dropdownMenuLink{
+    position: absolute;
+}
+
+#dropdownMenuLink[aria-expanded="true"]{
+    background-color: gray;
+    left: 10;
+
+}
