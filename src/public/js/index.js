@@ -83,6 +83,34 @@ function saveProject(){
     });
 }
 
+function compare(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const itemA = a.step_id;
+    const itemB = b.step_id;
+  
+    let comparison = 0;
+    if (itemA > itemB) {
+      comparison = 1;
+    } else if (itemA < itemB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  function compare2(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const itemA = a.task_id;
+    const itemB = b.task_id;
+  
+    let comparison = 0;
+    if (itemA > itemB) {
+      comparison = 1;
+    } else if (itemA < itemB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
 
     //TODO
     // Load project - show cards
@@ -90,10 +118,34 @@ function selectProj(project){
     $("#title").empty();
     $("#card-input").empty();
     // server get data from projectid and User_id
-    $.post("getProjectData", {projectName:project.id}, function(data){
+    $.post("getProjectData", {projectName:project.id}, function(data1){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
+
+        // This mught be bugged i have no idea why it works
         let cur;
+        let bef = 0;
+        let aft = 0;
+        let newData=[];
+        data1.sort(compare)
+        let item =  data1[0].stepname;
+        console.log(data1)
+        for(let i in data1){
+            if(item==data1[i].stepname){
+                aft = i
+            }else{
+                newData.push(data1.slice(bef,aft+1));
+                bef = i+1
+                item=data1[i].stepname
+            }   
+        }
+
+        for(let i in newData){
+            newData[i].sort(compare2)
+        } 
+        let data = newData.flat()
+        console.log(data.sort(compare));
+
         for(let i in data){
             steps = data[i]
             if(cur == data[i].stepname && steps.taskname != null){
