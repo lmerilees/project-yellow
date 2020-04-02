@@ -364,9 +364,7 @@ function taskDelete(curItem){
     let projectName = $("#title1").text();
     let task = $(curItem).parent().parent().parent().children().next()[0].textContent;
     let deleteThis = $(curItem).parent().parent().parent()
-    let stepName = $(curItem).parent().parent().parent().parent().prev().text();
-    stepName = stepName.split(" ")[0];
-
+    let stepName = $(curItem).parent().parent().parent().parent().prev().children().first().text();
     $.post("get-step-id", {stepName, projectName}, function(data){
         console.log(data);
         let step_id = data.rows[0].step_id;
