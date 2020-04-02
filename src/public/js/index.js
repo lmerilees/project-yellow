@@ -118,33 +118,33 @@ function selectProj(project){
     $("#title").empty();
     $("#card-input").empty();
     // server get data from projectid and User_id
-    $.post("getProjectData", {projectName:project.id}, function(data1){
+    $.post("getProjectData", {projectName:project.id}, function(data){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
 
-        // This mught be bugged i have no idea why it works
+        // // This mught be bugged i have no idea why it works
         let cur;
-        let bef = 0;
-        let aft = 0;
-        let newData=[];
-        data1.sort(compare)
-        let item =  data1[0].stepname;
-        console.log(data1)
-        for(let i in data1){
-            if(item==data1[i].stepname){
-                aft = i
-            }else{
-                newData.push(data1.slice(bef,aft+1));
-                bef = i+1
-                item=data1[i].stepname
-            }   
-        }
+        // let bef = 0;
+        // let aft = 0;
+        // let newData=[];
+        // data1.sort(compare)
+        // let item =  data1[0].stepname;
+        // console.log(data1)
+        // for(let i in data1){
+        //     if(item==data1[i].stepname){
+        //         aft = i
+        //     }else{
+        //         newData.push(data1.slice(bef,aft+1));
+        //         bef = i+1
+        //         item=data1[i].stepname
+        //     }   
+        // }
 
-        for(let i in newData){
-            newData[i].sort(compare2)
-        } 
-        let data = newData.flat()
-        console.log(data.sort(compare));
+        // for(let i in newData){
+        //     newData[i].sort(compare2)
+        // } 
+        // let data = newData.flat()
+        // console.log(data.sort(compare));
 
         for(let i in data){
             steps = data[i]
@@ -364,9 +364,11 @@ function taskDelete(curItem){
     let projectName = $("#title1").text();
     let task = $(curItem).parent().parent().parent().children().next()[0].textContent;
     let deleteThis = $(curItem).parent().parent().parent()
-    let stepName = $(curItem).parent().parent().parent().parent().prev().children().text()
+    let stepName = $(curItem).parent().parent().parent().parent().prev().text();
+    stepName = stepName.split(" ")[0];
 
     $.post("get-step-id", {stepName, projectName}, function(data){
+        console.log(data);
         let step_id = data.rows[0].step_id;
 
         $.post("task-delete", {taskName:task, step_id:step_id}, function(data){
