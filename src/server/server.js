@@ -18,10 +18,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// show login page
 app.get("/login", function(req,res){
     res.sendFile(path.resolve(__dirname, '../html',"login.html"))
 });
 
+// login the user
 app.post("/login",function(req, res){
   pool.query("Select * from users WHERE username ='" + req.body.username+"'", function(err,result){
     if(result.rows.length !=0){
@@ -30,12 +32,10 @@ app.post("/login",function(req, res){
         if (err) {
           throw err
         } else if (!isMatch) {
-          console.log("Password doesn't match!")
           res.send("Username or Password is incorrect!");
         } else {
           req.session.loggedin = true;
           req.session.username = result.rows[0].username;
-          console.log("Password matches!");
           res.redirect("index");
         } 
       });
@@ -45,24 +45,25 @@ app.post("/login",function(req, res){
   });
 });
 
-  // get current session username
+// get current session username
 app.post("/getUser", function(req, res){
   res.send(req.session.username);
 });
 
-
+// get index page
 app.get("/index", function(req,res){
     if(req.session.loggedin){
       res.sendFile(path.resolve(__dirname, '../html',"index.html"))
     }
   });
 
+// get register page
 app.get("/register", function(req,res){
   res.sendFile(path.resolve(__dirname, '../html',"register.html"))
 });
 
+// register user 
 app.post("/register", function(req, res){
-  // console.log(req.body)
   bcrypt.genSalt(10,function(err, salt){
     if(err){
       throw err;
@@ -73,7 +74,6 @@ app.post("/register", function(req, res){
         }else{
           pool.query("SELECT username FROM users WHERE username = '" + req.body.username + "'", (err,ret) => {
             if (err) {
-              console.log(err.stack);
             }else{
               if(ret.rows.length == 0){
                 pool.query("INSERT INTO users(username, password) VALUES('" + req.body.username+"'"+",'" + hash +"')");
@@ -101,8 +101,6 @@ app.post("/project-add", function(req,res){
   });
 });
 
-
-
 // get userID of current user
 app.post("/getUserID", function(req, res){
   let sql = "SELECT user_id FROM users WHERE username = '" + req.session.username + "'";
@@ -115,23 +113,16 @@ app.post("/getUserID", function(req, res){
   });
 });
 
-// get project ID of current project
-
 // populate steps for current project
 app.post("/getProjectData", function(req,res){
-  //NEED To FIX THIS
   pool.query("SELECT steps.stepname, steps.step_id, tasks.task_id, steps.stepinfo, tasks.taskname, tasks.checkvalue FROM steps FULL OUTER JOIN tasks ON steps.step_id = tasks.step_id WHERE project_name ='" + req.body.projectName +"'", function(err, result){
     if(err){
       res.send(err);
     }else{
-      console.log(result.rows)
       res.send(result.rows);
     }
   });
 });
-
-
-
 
 // delete project
 app.post("/deleteProject", function(req,res){
@@ -147,7 +138,6 @@ app.post("/deleteProject", function(req,res){
 
 // list all projects
 app.post("/allProjects", function(req,res){
-  console.log(req.body.userID)
   pool.query("SELECT * FROM projects WHERE user_id ='" + req.body.userID +"'", function(err, result){
     if(err){
       res.send("err");
@@ -162,7 +152,6 @@ app.post("/allProjects", function(req,res){
   app.post("/step-add", function(req, res){
     let sql = "INSERT INTO steps (step_id, stepname, stepinfo, project_name) VALUES(DEFAULT, " + "'" + req.body.cardName + "'" + ", " + "'" + req.body.cardInfo + "'" + ", " + "'" + req.body.projectName + "'" + ")";
     pool.query(sql, (err, results) => {
-      // console.log(sql);
       if (err){
         res.send(err)
       }
@@ -173,12 +162,10 @@ app.post("/allProjects", function(req,res){
     })
   })
 
-  
 // delete card from database
 app.post("/step-delete", function(req, res){
   let sql = "DELETE FROM steps WHERE step_id = '" + req.body.step_id + "'"
   pool.query(sql, (err, results) => {
-    console.log(sql);
     if (err){
       res.send(err)
     }
@@ -188,10 +175,10 @@ app.post("/step-delete", function(req, res){
   })
 })
 
+// get the step-id of the given stepname
 app.post("/get-step-id", function(req, res){
   let sql = "SELECT step_id FROM steps WHERE stepname = " + "'" + req.body.stepName + "'" + " and " + "project_name = " + "'" + req.body.projectName + "'";
   pool.query(sql, (err, results) => {
-    console.log(sql);
     if(err){
       res.send(err)
     }
@@ -211,23 +198,19 @@ app.post("/task-add", function(req, res){
     value = "FALSE"
   }
   let sql = "INSERT INTO tasks (task_id, taskname, step_id, checkvalue) VALUES(DEFAULT, "
-   + "'" + req.body.taskName + "'" + ", " + "'" + req.body.step_id + "'" + ','+ value +' )';
-   console.log(req.body.taskName, req.body.stepName)
-  
+  + "'" + req.body.taskName + "'" + ", " + "'" + req.body.step_id + "'" + ','+ value +' )';
   pool.query(sql, (err, results) => {
     
     if (err){
-      console.log(sql);
-      console.log(err)
       res.send(err)
     }
     else{
-      console.log(sql);
       res.send("Task added!")
     }
   })
 });
 
+// update checkvalue of given task
 app.post("/alter-check", function(req,res){
 
   let sql = "UPDATE tasks SET checkvalue = " +req.body.data+" WHERE step_id = '"
@@ -237,7 +220,6 @@ app.post("/alter-check", function(req,res){
     if(err){
       res.send(err);
     }else{
-      console.log(sql);
       res.send(result);
     }
   });
@@ -252,7 +234,6 @@ app.post("/task-delete", function(req, res){
       res.send(err)
     }
     else{
-      console.log(sql);
       res.send("true")
     }
   });

@@ -1,24 +1,26 @@
 let User_Id = 0;
 let project_name;
+
 $(document).ready(function () {
 
+    // display welcome at the top of the page
+    $("#title1").html("Welcome!");
 
+    // get username 
     $.post("getUser",function(data){
         $("#username").append(data);        
     });
 
+    // get userID
     $.post("getUserID",function(data){
         User_Id = data.rows[0].user_id;
         allProjects(User_Id);
     });
 
-
     // this function handles the sidebar collapse
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
-
-    $("#title1").html("Welcome!");
 
     // create model and append card to html
     $("#newStep").on('click',() => {
@@ -60,8 +62,8 @@ $(document).ready(function () {
 
 });
 
+// save project in database
 function saveProject(){
-    // send project name to database
     let projectName = $("#append-body #project-input").val().trim().replace(/[^a-z0-9 " "]/gi,'');
     project_name = projectName;
     $.post("project-add", {proj_name:projectName, user_id:User_Id}, function(data){
@@ -111,9 +113,7 @@ function compare(a, b) {
     return comparison;
   }
 
-
-    //TODO
-    // Load project - show cards
+// Load project - populate steps and tasks
 function selectProj(project){
     $("#title").empty();
     $("#card-input").empty();
@@ -218,6 +218,7 @@ function selectProj(project){
     });
 }
 
+// delete project from database (and all associated steps/tasks)
 function deleteProj(project){
     if(project.id == $("#title1").text()){
         $("#title1").empty();
@@ -234,7 +235,7 @@ function deleteProj(project){
     });
 }
 
- // sidebar
+ // get all projects from database and append to sidebar
  function allProjects(UserID){
     $.post("allProjects", {userID:UserID}, function(data){
         for(let i in data.rows){
@@ -250,6 +251,7 @@ function deleteProj(project){
     });
 }
 
+// add a step to the project
 function stepSave(){
     let cardName = $("#append-body #project-input").val().trim();
     let cardInfo = $("#append-body").children().last().prev().val();
@@ -275,6 +277,7 @@ function stepSave(){
     });
 }
 
+// delete a step from the project
 function stepDelete(step){
     let projectName = $("#title1").text();
     let stepName = $(step).parent().parent().children().first().children().first().text()
@@ -292,17 +295,18 @@ function stepDelete(step){
     })
 }
 
+// prompt user for task information
 function newTask(curItem){
     $("#modal-header").empty();
     $("#append-body").empty();
     $("#append-foot").empty();
-    console.log($(curItem).parent().prev().prev().children().first().text().split(" ").join('_'))
     $("#modal-header").append("<h3 id='"+$(curItem).parent().prev().prev().children().first().text().split(" ").join('_')+"'>New Task</h3>");
     $("#append-body").append("<input type='text' id='task-input' class='form-control' placeholder='Step name'> </input>");
     $("#append-foot").append('<button type="button" class="btn btn-primary" onclick="taskSave(this);" id="card-save">Save changes</button>');
     $("#myModal").modal({show:true});
 }
 
+// add new task to the database
 function taskSave(curItem){
     let projectName = $("#title1").text();
     let taskName = $("#task-input").val();
@@ -313,7 +317,6 @@ function taskSave(curItem){
 
         $.post("task-add", {taskName, step_id}, function(data){
             if(data.name != "error"){
-                console.log("test");
                 $("#chk_"+stepName.split(" ").join("_")).append('<li class="list-group-item"></li>').children().last()
                 .append('<input class="form-check-input" type="checkbox" value="" id="t_'+stepName.split().join("_") +'" onclick="boxSelect(this)"> ')
                 .append('<label class="form-check-label" for="t_'+taskName.split().join("_")+'"> '+taskName+' </label>')
@@ -331,7 +334,6 @@ function taskSave(curItem){
                     </div>`);
                 $("#myModal").modal('hide');
             }else{
-                console.log(data)
             }
         });
 
@@ -340,6 +342,7 @@ function taskSave(curItem){
 
 }
 
+// handles checking/unchecking of tasks
 function boxSelect(data){
     let projectName = $("#title1").text();
     let stepName = data.id.substring(data.id.indexOf('_')+1)
@@ -360,17 +363,16 @@ function boxSelect(data){
     });
 }
 
+// delete a task from the step card
 function taskDelete(curItem){
     let projectName = $("#title1").text();
     let task = $(curItem).parent().parent().parent().children().next()[0].textContent;
     let deleteThis = $(curItem).parent().parent().parent()
     let stepName = $(curItem).parent().parent().parent().parent().prev().children().first().text();
     $.post("get-step-id", {stepName, projectName}, function(data){
-        console.log(data);
         let step_id = data.rows[0].step_id;
 
         $.post("task-delete", {taskName:task, step_id:step_id}, function(data){
-            console.log(data)    
             if(data=="true"){
                     deleteThis.remove()
                 }
@@ -378,6 +380,7 @@ function taskDelete(curItem){
     });
 }
 
+// only allow 255 chars in textbox
 function limitText(){
     var tval = $('textarea').val(),
         tlength = tval.length,
