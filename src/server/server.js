@@ -156,7 +156,6 @@ app.post("/allProjects", function(req,res){
         res.send(err)
       }
       else{
-
         res.send(results)
       }
     })
@@ -227,7 +226,6 @@ app.post("/alter-check", function(req,res){
 
 //remove task data from cards table
 app.post("/task-delete", function(req, res){
-  
   let sql = "DELETE FROM tasks WHERE taskname = '"+req.body.taskName.trim()+"' AND step_id = '" + req.body.step_id + "'"; 
   pool.query(sql, (err, results) => {
     if (err){
@@ -239,7 +237,7 @@ app.post("/task-delete", function(req, res){
   });
 });
 
-
+// create server and listen on port 8000
 https.createServer({
   key: fs.readFileSync( path.resolve( 'src/server/key.pem')),
   cert: fs.readFileSync(path.resolve('src/server/cert.pem'))

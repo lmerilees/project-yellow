@@ -85,34 +85,6 @@ function saveProject(){
     });
 }
 
-function compare(a, b) {
-    // Use toUpperCase() to ignore character casing
-    const itemA = a.step_id;
-    const itemB = b.step_id;
-  
-    let comparison = 0;
-    if (itemA > itemB) {
-      comparison = 1;
-    } else if (itemA < itemB) {
-      comparison = -1;
-    }
-    return comparison;
-  }
-
-  function compare2(a, b) {
-    // Use toUpperCase() to ignore character casing
-    const itemA = a.task_id;
-    const itemB = b.task_id;
-  
-    let comparison = 0;
-    if (itemA > itemB) {
-      comparison = 1;
-    } else if (itemA < itemB) {
-      comparison = -1;
-    }
-    return comparison;
-  }
-
 // Load project - populate steps and tasks
 function selectProj(project){
     $("#title").empty();
@@ -122,29 +94,7 @@ function selectProj(project){
         // this is where we populate the page with steps
         $("#title1").html(project.id);
 
-        // // This mught be bugged i have no idea why it works
         let cur;
-        // let bef = 0;
-        // let aft = 0;
-        // let newData=[];
-        // data1.sort(compare)
-        // let item =  data1[0].stepname;
-        // console.log(data1)
-        // for(let i in data1){
-        //     if(item==data1[i].stepname){
-        //         aft = i
-        //     }else{
-        //         newData.push(data1.slice(bef,aft+1));
-        //         bef = i+1
-        //         item=data1[i].stepname
-        //     }   
-        // }
-
-        // for(let i in newData){
-        //     newData[i].sort(compare2)
-        // } 
-        // let data = newData.flat()
-        // console.log(data.sort(compare));
 
         for(let i in data){
             steps = data[i]
@@ -230,7 +180,9 @@ function deleteProj(project){
             $("#"+project.id.split(' ').join('_')).remove()
             $("#title").empty();
             $("#card-input").empty();
-
+        }
+        else{
+            alert(data)
         }
     });
 }
@@ -290,6 +242,9 @@ function stepDelete(step){
             if(data=="true"){
                 deleteThis.remove()
             }
+            else{
+                alert("Delete error")
+            }
         })
 
     })
@@ -334,6 +289,7 @@ function taskSave(curItem){
                     </div>`);
                 $("#myModal").modal('hide');
             }else{
+                alert("Task add error")
             }
         });
 
@@ -359,6 +315,9 @@ function boxSelect(data){
         let step_id = data.rows[0].step_id;
 
         $.post("alter-check", {data:bool , step:step_id, task:taskname}, function(data){
+            if(data == "error"){
+                alert("Checkbox error");
+            }
         });
     });
 }
@@ -375,7 +334,10 @@ function taskDelete(curItem){
         $.post("task-delete", {taskName:task, step_id:step_id}, function(data){
             if(data=="true"){
                     deleteThis.remove()
-                }
+            }
+            else{
+                alert("Task delete error");
+            }
         });
     });
 }
