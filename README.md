@@ -1,5 +1,7 @@
 # project-yellow
-This is a time managment website.
+Project Yellow was created for the final project of CMPT350.
+
+We created project yellow as an attempt to emulate some of the features of popular task management websites like Trello.
 
 # Development Setup
 1) Install nodejs. https://nodejs.org/en/
